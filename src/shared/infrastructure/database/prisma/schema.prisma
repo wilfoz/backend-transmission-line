@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @db.Uuid
+  name      String?  @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(100)
+  createdAt DateTime @default(now())
+
+  @@map("users")
+}
+
+model Tower {
+  id                    String   @id @default(uuid())
+  code                  Int      @db.Integer
+  tower                 String   @db.VarChar(20)
+  type                  String   @db.VarChar(20)
+  coordinates           Json     @db.Json
+  distance              Float?   @db.DoublePrecision
+  height                Float?   @db.DoublePrecision
+  weight                Float?   @db.DoublePrecision
+  type_of_foundation_A  String?  @db.VarChar(20)
+  type_of_foundation_B  String?  @db.VarChar(20)
+  type_of_foundation_C  String?  @db.VarChar(20)
+  type_of_foundation_D  String?  @db.VarChar(20)
+  type_of_foundation_MC String?  @db.VarChar(20)
+  embargo               String?  @db.VarChar(20)
+  createdAt             DateTime @default(now())
+
+  @@map("towers")
+}

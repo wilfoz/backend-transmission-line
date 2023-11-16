@@ -1,0 +1,84 @@
+### Variables
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWIxMDg0LWY3NjgtNDFmNS05OGU1LWM3MGE2MTAxNjkwOSIsImlhdCI6MTcwMDA3MTQzNiwiZXhwIjoxNzAwMTU3ODM2fQ.gchtoTPWHI_JtcFCaHhTBdl6JGycDFp0LD0wEeLvN8U
+@uuid=34d1a403-051d-4078-a92f-7e0c37cde6cc
+
+
+
+### USERS
+### GET
+GET http://localhost:3000/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+### SEARCH
+GET http://localhost:3000/users?page=1&perPage=5
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### LOGIN
+POST  http://localhost:3000/users/login
+content-type: application/json
+
+{
+    "email": "d@d.com",
+    "password": "12345"
+}
+### CREATE
+
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+    "name": "test3",
+    "email": "d@d.com",
+    "password": "12345"
+}
+
+### TOWERS
+
+### CREATE
+POST http://localhost:3000/tower
+content-type: application/json
+
+{
+  "code": 1,
+  "tower": "0/2",
+  "type": "AT",
+  "coordinates": { "latitude": "00002", "longitude": "000023" },
+  "distance": 200,
+  "height": 30,
+  "weight": 1000,
+  "type_of_foundation_A": "T",
+  "type_of_foundation_B": "T",
+  "type_of_foundation_C": "T",
+  "type_of_foundation_D": "T",
+  "type_of_foundation_MC": "T",
+  "embargo": "RELEASE"
+}
+
+### GET
+GET http://localhost:3000/tower/{{uuid}}
+Content-Type: application/json
+
+### SEARCH
+GET http://localhost:3000/tower?page=1&perPage=5
+Content-Type: application/json
+
+### UPDATE
+PUT http://localhost:3000/tower/{{uuid}}
+content-type: application/json
+
+{
+  "code": 2,
+  "tower": "100/2",
+  "type": "AT",
+  "coordinates": { "latitude": "00002", "longitude": "000023" },
+  "distance": 200,
+  "height": 30,
+  "weight": 1000,
+  "type_of_foundation_A": "T",
+  "type_of_foundation_B": "T",
+  "type_of_foundation_C": "T",
+  "type_of_foundation_D": "T",
+  "type_of_foundation_MC": "T",
+  "embargo": "RELEASE"
+}
