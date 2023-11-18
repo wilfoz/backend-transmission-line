@@ -15,7 +15,7 @@ export type TowerOutput = {
   type_of_foundation_C: string | null;
   type_of_foundation_D: string | null;
   type_of_foundation_MC: string | null;
-  embargo?: string | null;
+  embargo: Embargo | null;
   createdAt: Date;
 };
 

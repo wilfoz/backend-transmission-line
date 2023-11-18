@@ -1,6 +1,8 @@
 import { instanceToPlain } from 'class-transformer';
 import { PaginationPresenter } from '@/shared/infrastructure/presenters/pagination.presenter';
 import { TowerPresenter, TowersCollectionPresenter } from '../tower.presenter';
+import { Embargo } from '@/towers/domain/entities/towers.entity';
+import { TowerOutput } from '@/towers/application/dto/tower-output';
 
 describe('TowerPresenter', () => {
   let sut: TowerPresenter;
@@ -19,7 +21,7 @@ describe('TowerPresenter', () => {
     type_of_foundation_C: 'T',
     type_of_foundation_D: 'T',
     type_of_foundation_MC: 'T',
-    embargo: 'RELEASE',
+    embargo: 'RELEASE' as Embargo,
     createdAt,
   };
 
@@ -88,7 +90,7 @@ describe('TowersCollectionPresenter', () => {
     type_of_foundation_MC: 'T',
     embargo: 'RELEASE',
     createdAt,
-  };
+  } as TowerOutput;
 
   describe('Constructor', () => {
     it('should set values', () => {
@@ -138,7 +140,7 @@ describe('TowersCollectionPresenter', () => {
           type_of_foundation_C: 'T',
           type_of_foundation_D: 'T',
           type_of_foundation_MC: 'T',
-          embargo: 'RELEASE',
+          embargo: 'RELEASE' as Embargo,
           createdAt: createdAt.toISOString(),
         },
       ],

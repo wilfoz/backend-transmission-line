@@ -2,6 +2,7 @@ import { CollectionPresenter } from '@/shared/infrastructure/presenters/collecti
 import { TowerOutput } from '@/towers/application/dto/tower-output';
 import { ListTowersUseCase } from '@/towers/application/usecases/list-towers.usecase';
 import { CoordinateProps } from '@/towers/domain/entities/coordinates-vo';
+import { Embargo } from '@/towers/domain/entities/towers.entity';
 import { Transform } from 'class-transformer';
 
 export class TowerPresenter {
@@ -18,7 +19,7 @@ export class TowerPresenter {
   type_of_foundation_C: string | null;
   type_of_foundation_D: string | null;
   type_of_foundation_MC: string | null;
-  embargo: string | null;
+  embargo: Embargo | null;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;

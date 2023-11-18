@@ -16,7 +16,7 @@ describe('TowerModelMapper Integration tests', () => {
   });
 
   beforeEach(async () => {
-    await prismaService.user.deleteMany();
+    await prismaService.tower.deleteMany();
     props = {
       id: '7839cf9b-cef5-4c33-b68a-f4cefde5fe94',
       code: 1,
