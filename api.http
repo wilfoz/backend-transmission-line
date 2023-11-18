@@ -1,6 +1,7 @@
 ### Variables
 @authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWIxMDg0LWY3NjgtNDFmNS05OGU1LWM3MGE2MTAxNjkwOSIsImlhdCI6MTcwMDA3MTQzNiwiZXhwIjoxNzAwMTU3ODM2fQ.gchtoTPWHI_JtcFCaHhTBdl6JGycDFp0LD0wEeLvN8U
 @uuid=34d1a403-051d-4078-a92f-7e0c37cde6cc
+@uuid_task=2aff0e3c-37ec-43f0-8dbe-7b2f8c7c0054
 
 
 
@@ -81,4 +82,39 @@ content-type: application/json
   "type_of_foundation_D": "T",
   "type_of_foundation_MC": "T",
   "embargo": "RELEASE"
+}
+
+
+### TASK
+
+### CREATE
+POST http://localhost:3000/task
+content-type: application/json
+
+{
+  "code": 2,
+  "stage": "CIVIL",
+  "group": "TOPOGRAFIA",
+  "name": "Conferencia de Perfil",
+  "unit": "km"
+}
+
+### GET
+GET http://localhost:3000/task/{{uuid_task}}
+Content-Type: application/json
+
+### SEARCH
+GET http://localhost:3000/task?page=1&perPage=5
+Content-Type: application/json
+
+### UPDATE
+PUT http://localhost:3000/task/{{uuid_task}}
+content-type: application/json
+
+{
+  "code": 3,
+  "stage": "LANCAMENTO",
+  "group": "TOPOGRAFIA",
+  "name": "Locação de cavas",
+  "unit": "km"
 }

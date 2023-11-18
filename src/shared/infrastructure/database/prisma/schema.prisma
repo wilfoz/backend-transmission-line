@@ -39,3 +39,15 @@ model Tower {
 
   @@map("towers")
 }
+
+model Task {
+  id        String   @id @default(uuid())
+  code      Int      @db.Integer
+  stage     String   @db.VarChar(50)
+  group     String   @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  unit      String   @db.VarChar(20)
+  createdAt DateTime @default(now())
+
+  @@map("tasks")
+}

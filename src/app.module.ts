@@ -4,6 +4,7 @@ import { UsersModule } from './users/infrastructure/users.module';
 import { DatabaseModule } from './shared/infrastructure/database/database.module';
 import { AuthModule } from './auth/infrastructure/auth.module';
 import { TowerModule } from './towers/infrastructure/tower.module';
+import { TaskModule } from './task/infrastructure/task.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { TowerModule } from './towers/infrastructure/tower.module';
     DatabaseModule,
     AuthModule,
     TowerModule,
+    TaskModule,
   ],
 })
 export class AppModule { }
