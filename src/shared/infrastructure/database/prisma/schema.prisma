@@ -51,3 +51,89 @@ model Task {
 
   @@map("tasks")
 }
+
+model Team {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  tooling_cost Int
+  createdAt    DateTime @default(now())
+
+  // employee   Employee[]
+  // equipment  Equipment[]
+  // production Production[]
+  @@map("teams")
+}
+
+model Equipment {
+  id            String @id @default(uuid())
+  model         String
+  manufacturer  String
+  license_plate String @unique
+  provider      String
+
+  status    STATUS_EQUIPMENT @default(ACTIVE)
+  createdAt DateTime         @default(now())
+
+  // team   Team @relation(fields: [teamId], references: [id])
+  // teamId Int
+
+  @@map("equipments")
+}
+
+model Employee {
+  id           String          @id @default(uuid())
+  registration String          @db.VarChar(255)
+  fullName     String          @unique @db.VarChar(255)
+  occupation   String          @db.VarChar(255)
+  leadership   Boolean         @db.Boolean
+  status       STATUS_EMPLOYEE @default(ACTIVE)
+  createdAt    DateTime        @default(now())
+
+  // team   Team @relation(fields: [teamId], references: [id])
+  // teamId Int
+
+  @@map("employees")
+}
+
+// model Production {
+//   id Int @id @default(autoincrement())
+
+//   comments String?
+//   status   STATUS_PRODUCTION @default(PROGRAMADO)
+//   weather  WEATHER           @default(BOM)
+//   task     Task              @relation(fields: [taskId], references: [id])
+//   taskId   Int
+
+//   tower  ListConstruction @relation(fields: [listId], references: [id])
+//   listId Int
+
+//   team   Team @relation(fields: [teamId], references: [id])
+//   teamId Int
+
+//   productionDate DateTime
+
+//   startTimeOfDay String?
+//   endTimeOfDay   String?
+// }
+
+enum STATUS_EQUIPMENT {
+  ACTIVE
+  MAINTENANCE
+  DEMOBILIZED
+}
+
+enum STATUS_PRODUCTION {
+  EXECUTADO
+  PROGRAMADO
+  ANDAMENTO
+}
+
+enum STATUS_EMPLOYEE {
+  ACTIVE
+  AWAY
+}
+
+enum LEADERS {
+  YES
+  NO
+}

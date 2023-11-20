@@ -120,7 +120,7 @@ describe('UserValidator Integration Tests', () => {
     });
   });
 
-  describe('Name field', () => {
+  describe('CreatedAt field', () => {
     it('invalidation cases for createdAt field', () => {
       const props = userDataBuilder({});
       let isValid = sut.validate({ ...props, createdAt: 10 as any });

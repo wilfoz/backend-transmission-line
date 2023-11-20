@@ -2,6 +2,7 @@
 @authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWIxMDg0LWY3NjgtNDFmNS05OGU1LWM3MGE2MTAxNjkwOSIsImlhdCI6MTcwMDA3MTQzNiwiZXhwIjoxNzAwMTU3ODM2fQ.gchtoTPWHI_JtcFCaHhTBdl6JGycDFp0LD0wEeLvN8U
 @uuid=34d1a403-051d-4078-a92f-7e0c37cde6cc
 @uuid_task=2aff0e3c-37ec-43f0-8dbe-7b2f8c7c0054
+@uuid_employee=358160a8-f8d7-44a9-a479-5199dc4be94e
 
 
 
@@ -117,4 +118,39 @@ content-type: application/json
   "group": "TOPOGRAFIA",
   "name": "Locação de cavas",
   "unit": "km"
+}
+
+
+### EMPLOYEE
+
+### CREATE
+POST http://localhost:3000/employee
+content-type: application/json
+
+{
+  "registration": "REG-001",
+  "fullName": "Wesley Branco Rufino",
+  "occupation": "Encarregado",
+  "leadership": true,
+  "status": "ACTIVE"
+}
+
+### GET
+GET http://localhost:3000/employee/{{uuid_employee}}
+Content-Type: application/json
+
+### SEARCH
+GET http://localhost:3000/employee?page=1&perPage=5
+Content-Type: application/json
+
+### UPDATE
+PUT http://localhost:3000/employee/{{uuid_employee}}
+content-type: application/json
+
+{
+  "registration": "REG-002",
+  "fullName": "Wellison Branco Rufino",
+  "occupation": "Orelha",
+  "leadership": true,
+  "status": "ACTIVE"
 }
