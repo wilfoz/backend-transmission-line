@@ -21,7 +21,7 @@ model User {
 }
 
 model Tower {
-  id                    String   @id @default(uuid())
+  id                    String   @id @db.Uuid
   code                  Int      @db.Integer
   tower                 String   @db.VarChar(20)
   type                  String   @db.VarChar(20)
@@ -41,7 +41,7 @@ model Tower {
 }
 
 model Task {
-  id        String   @id @default(uuid())
+  id        String   @id @db.Uuid
   code      Int      @db.Integer
   stage     String   @db.VarChar(50)
   group     String   @db.VarChar(255)
@@ -53,35 +53,37 @@ model Task {
 }
 
 model Team {
-  id           String   @id @default(uuid())
-  name         String   @unique
-  tooling_cost Int
-  createdAt    DateTime @default(now())
+  id        String   @id @db.Uuid
+  name      String   @unique
+  createdAt DateTime @default(now())
 
-  // employee   Employee[]
-  // equipment  Equipment[]
+  employee  Employee[]
+  equipment Equipment[]
+
   // production Production[]
   @@map("teams")
 }
 
 model Equipment {
-  id            String @id @default(uuid())
-  model         String
-  manufacturer  String
-  license_plate String @unique
-  provider      String
+  id           String @id @db.Uuid
+  registration String @db.VarChar(255)
+  model        String
+  manufacturer String
+  licensePlate String @unique
+  provider     String
 
   status    STATUS_EQUIPMENT @default(ACTIVE)
   createdAt DateTime         @default(now())
 
-  // team   Team @relation(fields: [teamId], references: [id])
-  // teamId Int
+  team   Team?   @relation(fields: [teamId], references: [id])
+  teamId String? @db.Uuid
 
+  @@unique([teamId])
   @@map("equipments")
 }
 
 model Employee {
-  id           String          @id @default(uuid())
+  id           String          @id @db.Uuid
   registration String          @db.VarChar(255)
   fullName     String          @unique @db.VarChar(255)
   occupation   String          @db.VarChar(255)
@@ -89,9 +91,10 @@ model Employee {
   status       STATUS_EMPLOYEE @default(ACTIVE)
   createdAt    DateTime        @default(now())
 
-  // team   Team @relation(fields: [teamId], references: [id])
-  // teamId Int
+  team   Team?   @relation(fields: [teamId], references: [id])
+  teamId String? @db.Uuid
 
+  @@unique([teamId])
   @@map("employees")
 }
 

@@ -6,8 +6,8 @@ import { AuthModule } from './auth/infrastructure/auth.module';
 import { TowerModule } from './towers/infrastructure/tower.module';
 import { TaskModule } from './task/infrastructure/task.module';
 import { EmployeesModule } from './employees/infrastructure/employees.module';
-import { EquipmentsModule } from './equipments/equipments.module';
-import { TeamsModule } from './teams/teams.module';
+import { EquipmentsModule } from './equipments/infrastructure/equipments.module';
+import { TeamsModule } from './teams/infrastructure/teams.module';
 
 @Module({
   imports: [
