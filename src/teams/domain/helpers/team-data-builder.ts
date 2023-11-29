@@ -1,27 +1,22 @@
-import { TeamProps } from '../entities/team.entity';
-import { EmployeeEntity } from '@/employees/domain/entities/employee.entity';
-import { EquipmentEntity } from '@/equipments/domain/entities/equipments.entity';
-import { employeeDataBuilder } from '@/employees/domain/helpers/employee-data-builder';
-import { equipmentDataBuilder } from '@/equipments/domain/helpers/Equipment-data-builder';
+import {
+  EmployeesProps,
+  EquipmentsProps,
+  TeamProps,
+} from '../entities/team.entity';
+import { faker } from '@faker-js/faker';
 
 type Props = {
   name?: string;
-  employees?: Map<string, EmployeeEntity>;
-  equipments?: Map<string, EquipmentEntity>;
+  employees?: EmployeesProps[];
+  equipments?: EquipmentsProps[];
   createdAt?: Date;
 };
 
 export function teamDataBuilder(props: Props): TeamProps {
-  const employee = new EmployeeEntity(employeeDataBuilder({}));
-  const equipment = new EquipmentEntity(equipmentDataBuilder({}));
   return {
-    name: props.name ?? 'Equipe de topográfia',
-    employees:
-      props.employees ??
-      new Map<string, EmployeeEntity>([[employee.id, employee]]),
-    equipments:
-      props.equipments ??
-      new Map<string, EquipmentEntity>([[equipment.id, equipment]]),
+    name: props.name ?? faker.commerce.department(),
+    employees: props.employees ?? ([] as any),
+    equipments: props.equipments ?? ([] as any),
     createdAt: props.createdAt ?? new Date(),
   };
 }

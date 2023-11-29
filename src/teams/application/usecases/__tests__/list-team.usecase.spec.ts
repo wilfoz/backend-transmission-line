@@ -1,20 +1,20 @@
-import { EquipmentInMemoryRepository } from '@/equipments/infrastructure/database/in-memory/equipment-in-memory.repository';
-import { ListEquipmentsUseCase } from '../list-equipment.usecase';
-import { EquipmentRepository } from '@/equipments/domain/repositories/equipment.repository';
-import { EquipmentEntity } from '@/equipments/domain/entities/equipments.entity';
-import { equipmentDataBuilder } from '@/equipments/domain/helpers/Equipment-data-builder';
+import { TeamEntity } from '@/teams/domain/entities/team.entity';
+import { teamDataBuilder } from '@/teams/domain/helpers/team-data-builder';
+import { TeamRepository } from '@/teams/domain/repositories/team.repository';
+import { ListTeamsUseCase } from '../list-team.usecase';
+import { TeamInMemoryRepository } from '@/teams/infrastructure/database/in-memory/team-in-memory.repository';
 
-describe('ListEquipmentsUseCase Unit Tests', () => {
-  let sut: ListEquipmentsUseCase.UseCase;
-  let repository: EquipmentInMemoryRepository;
+describe('ListTeamsUseCase Unit Tests', () => {
+  let sut: ListTeamsUseCase.UseCase;
+  let repository: TeamInMemoryRepository;
 
   beforeEach(() => {
-    repository = new EquipmentInMemoryRepository();
-    sut = new ListEquipmentsUseCase.UseCase(repository);
+    repository = new TeamInMemoryRepository();
+    sut = new ListTeamsUseCase.UseCase(repository);
   });
 
   it('toOutput method', () => {
-    let result = new EquipmentRepository.SearchResult({
+    let result = new TeamRepository.SearchResult({
       items: [] as any,
       total: 1,
       currentPage: 1,
@@ -32,8 +32,8 @@ describe('ListEquipmentsUseCase Unit Tests', () => {
       lastPage: 1,
       perPage: 2,
     });
-    const entity = new EquipmentEntity(equipmentDataBuilder({}));
-    result = new EquipmentRepository.SearchResult({
+    const entity = new TeamEntity(teamDataBuilder({}));
+    result = new TeamRepository.SearchResult({
       items: [entity],
       total: 1,
       currentPage: 1,
@@ -56,12 +56,12 @@ describe('ListEquipmentsUseCase Unit Tests', () => {
   it('should return the equipment sorted by createAt', async () => {
     const createdAt = new Date();
     const items = [
-      new EquipmentEntity(equipmentDataBuilder({ createdAt })),
-      new EquipmentEntity(
-        equipmentDataBuilder({ createdAt: new Date(createdAt.getTime() + 1) }),
+      new TeamEntity(teamDataBuilder({ createdAt })),
+      new TeamEntity(
+        teamDataBuilder({ createdAt: new Date(createdAt.getTime() + 1) }),
       ),
-      new EquipmentEntity(
-        equipmentDataBuilder({ createdAt: new Date(createdAt.getTime() + 2) }),
+      new TeamEntity(
+        teamDataBuilder({ createdAt: new Date(createdAt.getTime() + 2) }),
       ),
     ];
 
@@ -76,21 +76,21 @@ describe('ListEquipmentsUseCase Unit Tests', () => {
     });
   });
 
-  it('should return the equipments pagination, sorted and filter', async () => {
+  it('should return the teams pagination, sorted and filter', async () => {
     const items = [
-      new EquipmentEntity(equipmentDataBuilder({ model: 'test' })),
-      new EquipmentEntity(equipmentDataBuilder({ model: 'TEST' })),
-      new EquipmentEntity(equipmentDataBuilder({ model: 'fake' })),
-      new EquipmentEntity(equipmentDataBuilder({ model: 'Test' })),
-      new EquipmentEntity(equipmentDataBuilder({ model: 'FAKE' })),
-      new EquipmentEntity(equipmentDataBuilder({ model: 'FaKe' })),
+      new TeamEntity(teamDataBuilder({ name: 'test' })),
+      new TeamEntity(teamDataBuilder({ name: 'TEST' })),
+      new TeamEntity(teamDataBuilder({ name: 'fake' })),
+      new TeamEntity(teamDataBuilder({ name: 'Test' })),
+      new TeamEntity(teamDataBuilder({ name: 'FAKE' })),
+      new TeamEntity(teamDataBuilder({ name: 'FaKe' })),
     ];
 
     repository.items = items;
     let output = await sut.execute({
       page: 1,
       perPage: 2,
-      sort: 'model',
+      sort: 'name',
       sortDir: 'asc',
       filter: 'test',
     });
@@ -106,7 +106,7 @@ describe('ListEquipmentsUseCase Unit Tests', () => {
     output = await sut.execute({
       page: 2,
       perPage: 2,
-      sort: 'model',
+      sort: 'name',
       sortDir: 'asc',
       filter: 'test',
     });

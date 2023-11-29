@@ -6,9 +6,11 @@ import {
   MaxLength,
 } from 'class-validator';
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
-import { EmployeeProps } from '@/employees/domain/entities/employee.entity';
-import { EquipmentProps } from '@/equipments/domain/entities/equipments.entity';
-import { TeamProps } from '../entities/team.entity';
+import {
+  EmployeesProps,
+  EquipmentsProps,
+  TeamProps,
+} from '../entities/team.entity';
 
 export class TeamRules {
   @MaxLength(255)
@@ -17,10 +19,10 @@ export class TeamRules {
   name: string;
 
   @IsOptional()
-  employees?: Map<string, EmployeeProps>;
+  employees?: EmployeesProps[];
 
   @IsOptional()
-  equipments?: Map<string, EquipmentProps>;
+  equipments?: EquipmentsProps[];
 
   @IsDate()
   @IsOptional()
@@ -41,7 +43,6 @@ export class TeamValidator extends ClassValidatorFields<TeamRules> {
     return super.validate(new TeamRules(data ?? ({} as TeamProps)));
   }
 }
-
 export class TeamValidatorFactory {
   static create(): TeamValidator {
     return new TeamValidator();

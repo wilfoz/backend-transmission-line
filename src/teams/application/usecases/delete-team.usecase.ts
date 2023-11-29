@@ -1,7 +1,7 @@
-import { EquipmentRepository } from '@/equipments/domain/repositories/equipment.repository';
 import { UseCase as DefaultUseCase } from '@/shared/application/providers/usecases/use-case';
+import { TeamRepository } from '@/teams/domain/repositories/team.repository';
 
-export namespace DeleteEquipmentUseCase {
+export namespace DeleteTeamUseCase {
   export type Input = {
     id: string;
   };
@@ -9,7 +9,7 @@ export namespace DeleteEquipmentUseCase {
   export type Output = void;
 
   export class UseCase implements DefaultUseCase<Input, Output> {
-    constructor(private repository: EquipmentRepository.Repository) { }
+    constructor(private repository: TeamRepository.Repository) { }
 
     async execute(input: Input): Promise<Output> {
       await this.repository.delete(input.id);

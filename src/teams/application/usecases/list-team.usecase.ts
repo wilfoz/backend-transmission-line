@@ -4,29 +4,26 @@ import {
   PaginationOutput,
   PaginationOutputMapper,
 } from '@/shared/application/dto/pagination-output';
-import {
-  EquipmentOutput,
-  EquipmentOutputMapper,
-} from '../dto/team-output';
-import { EquipmentRepository } from '@/equipments/domain/repositories/equipment.repository';
+import { TeamOutput, TeamOutputMapper } from '../dto/team-output';
+import { TeamRepository } from '@/teams/domain/repositories/team.repository';
 
-export namespace ListEquipmentsUseCase {
+export namespace ListTeamsUseCase {
   export type Input = SearchInput;
 
-  export type Output = PaginationOutput<EquipmentOutput>;
+  export type Output = PaginationOutput<TeamOutput>;
 
   export class UseCase implements DefaultUseCase<Input, Output> {
-    constructor(private repository: EquipmentRepository.Repository) { }
+    constructor(private repository: TeamRepository.Repository) { }
 
     async execute(input: Input): Promise<Output> {
-      const params = new EquipmentRepository.SearchParams(input);
+      const params = new TeamRepository.SearchParams(input);
       const searchResult = await this.repository.search(params);
       return this.toOutput(searchResult);
     }
 
-    private toOutput(searchResult: EquipmentRepository.SearchResult): Output {
+    private toOutput(searchResult: TeamRepository.SearchResult): Output {
       const items = searchResult.items.map(item => {
-        return EquipmentOutputMapper.toOutput(item);
+        return TeamOutputMapper.toOutput(item);
       });
       return PaginationOutputMapper.toOutput(items, searchResult);
     }

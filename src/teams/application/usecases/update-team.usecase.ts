@@ -1,19 +1,17 @@
 import { UseCase as DefaultUseCase } from '@/shared/application/providers/usecases/use-case';
-import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 import { TeamOutput, TeamOutputMapper } from '../dto/team-output';
 import { TeamRepository } from '@/teams/domain/repositories/team.repository';
 import {
   EmployeesProps,
   EquipmentsProps,
-  TeamEntity,
-} from '@/teams/domain/entities/team.entity';
+} from '../../domain/entities/team.entity';
 
-export namespace CreateTeamUseCase {
+export namespace UpdateTeamUseCase {
   export type Input = {
+    id: string;
     name: string;
     employees?: EmployeesProps[];
     equipments?: EquipmentsProps[];
-    createdAt?: Date;
   };
 
   export type Output = TeamOutput;
@@ -22,20 +20,11 @@ export namespace CreateTeamUseCase {
     constructor(private repository: TeamRepository.Repository) { }
 
     async execute(input: Input): Promise<Output> {
-      try {
-        const entity = new TeamEntity(input);
-        await this.repository.insert(entity);
-        return TeamOutputMapper.toOutput(entity);
-      } catch (e) {
-        this.handleError(e);
-      }
-    }
+      const entity = await this.repository.findById(input.id);
+      entity.update(input.name);
 
-    private handleError(e: Error) {
-      if (e instanceof EntityValidationError) {
-        throw new EntityValidationError(e.error);
-      }
-      throw e;
+      this.repository.update(entity);
+      return TeamOutputMapper.toOutput(entity);
     }
   }
 }

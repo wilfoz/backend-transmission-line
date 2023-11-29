@@ -1,13 +1,15 @@
-import { EmployeeProps } from '@/employees/domain/entities/employee.entity';
-import { EquipmentProps } from '@/equipments/domain/entities/equipments.entity';
-import { TeamEntity } from '@/teams/domain/entities/team.entity';
+import {
+  EmployeesProps,
+  EquipmentsProps,
+  TeamEntity,
+} from '@/teams/domain/entities/team.entity';
 
 export type TeamOutput = {
   id: string;
   name: string;
-  employees?: EmployeeProps[];
-  equipments?: EquipmentProps[];
-  createdAt?: Date;
+  employees?: EmployeesProps[];
+  equipments?: EquipmentsProps[];
+  createdAt: Date;
 };
 
 export class TeamOutputMapper {

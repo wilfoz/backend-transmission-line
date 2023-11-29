@@ -2,7 +2,9 @@ import { TeamInMemoryRepository } from '@/teams/infrastructure/database/in-memor
 import { CreateTeamUseCase } from '../create-team.usecase';
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 import { teamDataBuilder } from '@/teams/domain/helpers/team-data-builder';
-import { TeamProps } from '@/teams/domain/entities/team.entity';
+import { TeamEntity, TeamProps } from '@/teams/domain/entities/team.entity';
+import { EmployeeProps } from '@/employees/domain/entities/employee.entity';
+import { EquipmentProps } from '@/equipments/domain/entities/equipments.entity';
 
 describe('CreateTeamUseCase Unit Tests', () => {
   let sut: CreateTeamUseCase.UseCase;
@@ -37,48 +39,56 @@ describe('CreateTeamUseCase Unit Tests', () => {
       expect(spyHandleError).toHaveBeenLastCalledWith(expectedError);
     });
 
-    // it('should throw an entity validation error', async () => {
-    //   const expectedError = new EntityValidationError({
-    //     name: ['is required'],
-    //   });
-    //   jest.spyOn(EquipmentEntity, 'validate').mockImplementation(() => {
-    //     throw expectedError;
-    //   });
-    //   const spyHandleError = jest.spyOn(sut, 'handleError' as any);
-    //   await expect(
-    //     sut.execute({
-    //       registration: '1',
-    //       model: 'Fiat 47',
-    //       manufacturer: 'Ajudante',
-    //       licensePlate: 'AAA:2133',
-    //       provider: 'Fiat',
-    //       status: 'ACTIVE',
-    //     }),
-    //   ).rejects.toThrowError(expectedError);
-    //   expect(spyHandleError).toHaveBeenLastCalledWith(expectedError);
-    // });
+    it('should throw an entity validation error', async () => {
+      const expectedError = new EntityValidationError({
+        name: ['is required'],
+      });
+      jest.spyOn(TeamEntity, 'validate').mockImplementation(() => {
+        throw expectedError;
+      });
+      const spyHandleError = jest.spyOn(sut, 'handleError' as any);
+      await expect(sut.execute(props)).rejects.toThrowError(expectedError);
+      expect(spyHandleError).toHaveBeenLastCalledWith(expectedError);
+    });
 
-    // it('should create a Equipment', async () => {
-    //   const spyInsert = jest.spyOn(repository, 'insert');
-    //   const output = await sut.execute({
-    //     registration: '1',
-    //     model: 'Fiat 47',
-    //     manufacturer: 'Ajudante',
-    //     licensePlate: 'AAA:2133',
-    //     provider: 'Fiat',
-    //     status: 'ACTIVE',
-    //   });
-    //   expect(spyInsert).toHaveBeenCalledTimes(1);
-    //   expect(output).toStrictEqual({
-    //     id: repository.items[0].id,
-    //     registration: '1',
-    //     model: 'Fiat 47',
-    //     manufacturer: 'Ajudante',
-    //     licensePlate: 'AAA:2133',
-    //     provider: 'Fiat',
-    //     status: 'ACTIVE',
-    //     createdAt: repository.items[0].createdAt,
-    //   });
-    // });
+    it('should create a Team with employees and equipments undefined', async () => {
+      const spyInsert = jest.spyOn(repository, 'insert');
+      const output = await sut.execute({
+        name: 'Locação',
+      });
+      expect(spyInsert).toHaveBeenCalledTimes(1);
+      expect(output).toStrictEqual({
+        id: repository.items[0].id,
+        name: repository.items[0].name,
+        employees: [],
+        equipments: [],
+        createdAt: repository.items[0].createdAt,
+      });
+    });
+
+    it('should create a Team', async () => {
+      const spyInsert = jest.spyOn(repository, 'insert');
+      const output = await sut.execute(props);
+      const employees = Array.from(repository.items[0].employees.values()).map(
+        employee => {
+          return { ...employee };
+        },
+      ) as EmployeeProps[];
+
+      const equipments = Array.from(
+        repository.items[0].equipments.values(),
+      ).map(equipment => {
+        return { ...equipment };
+      }) as EquipmentProps[];
+
+      expect(spyInsert).toHaveBeenCalledTimes(1);
+      expect(output).toStrictEqual({
+        id: repository.items[0].id,
+        name: repository.items[0].name,
+        employees: employees,
+        equipments: equipments,
+        createdAt: repository.items[0].createdAt,
+      });
+    });
   });
 });
