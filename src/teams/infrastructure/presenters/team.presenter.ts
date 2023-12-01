@@ -1,16 +1,12 @@
 import { CollectionPresenter } from '@/shared/infrastructure/presenters/collection.presenter';
 import { ListTeamsUseCase } from '@/teams/application/usecases/list-team.usecase';
 import { Transform } from 'class-transformer';
-import {
-  EmployeesProps,
-  EquipmentsProps,
-} from '../../domain/entities/team.entity';
 
 export class TeamPresenter {
   id: string;
   name: string;
-  employees?: EmployeesProps[];
-  equipments?: EquipmentsProps[];
+  employees?: string[];
+  equipments?: string[];
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;

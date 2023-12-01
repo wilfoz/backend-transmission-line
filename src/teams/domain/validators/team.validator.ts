@@ -6,11 +6,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { ClassValidatorFields } from '@/shared/domain/validators/class-validator-fields';
-import {
-  EmployeesProps,
-  EquipmentsProps,
-  TeamProps,
-} from '../entities/team.entity';
+import { TeamProps } from '../entities/team.entity';
 
 export class TeamRules {
   @MaxLength(255)
@@ -19,10 +15,10 @@ export class TeamRules {
   name: string;
 
   @IsOptional()
-  employees?: EmployeesProps[];
+  employees?: string[];
 
   @IsOptional()
-  equipments?: EquipmentsProps[];
+  equipments?: string[];
 
   @IsDate()
   @IsOptional()

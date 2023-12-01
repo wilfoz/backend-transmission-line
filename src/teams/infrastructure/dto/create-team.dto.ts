@@ -1,8 +1,4 @@
 import { CreateTeamUseCase } from '@/teams/application/usecases/create-team.usecase';
-import {
-  EmployeesProps,
-  EquipmentsProps,
-} from '@/teams/domain/entities/team.entity';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateTeamDto implements CreateTeamUseCase.Input {
@@ -11,8 +7,8 @@ export class CreateTeamDto implements CreateTeamUseCase.Input {
   name: string;
 
   @IsOptional()
-  employees?: EmployeesProps[];
+  employees?: string[];
 
   @IsOptional()
-  equipments?: EquipmentsProps[];
+  equipments?: string[];
 }

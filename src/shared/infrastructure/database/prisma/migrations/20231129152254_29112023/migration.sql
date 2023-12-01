@@ -74,7 +74,6 @@ CREATE TABLE "equipments" (
     "provider" TEXT NOT NULL,
     "status" "STATUS_EQUIPMENT" NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "teamId" UUID,
 
     CONSTRAINT "equipments_pkey" PRIMARY KEY ("id")
 );
@@ -88,9 +87,20 @@ CREATE TABLE "employees" (
     "leadership" BOOLEAN NOT NULL,
     "status" "STATUS_EMPLOYEE" NOT NULL DEFAULT 'ACTIVE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "teamId" UUID,
 
     CONSTRAINT "employees_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "_EquipmentToTeam" (
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_EmployeeToTeam" (
+    "A" UUID NOT NULL,
+    "B" UUID NOT NULL
 );
 
 -- CreateIndex
@@ -103,16 +113,28 @@ CREATE UNIQUE INDEX "teams_name_key" ON "teams"("name");
 CREATE UNIQUE INDEX "equipments_licensePlate_key" ON "equipments"("licensePlate");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "equipments_teamId_key" ON "equipments"("teamId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "employees_fullName_key" ON "employees"("fullName");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "employees_teamId_key" ON "employees"("teamId");
+CREATE UNIQUE INDEX "_EquipmentToTeam_AB_unique" ON "_EquipmentToTeam"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_EquipmentToTeam_B_index" ON "_EquipmentToTeam"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_EmployeeToTeam_AB_unique" ON "_EmployeeToTeam"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_EmployeeToTeam_B_index" ON "_EmployeeToTeam"("B");
 
 -- AddForeignKey
-ALTER TABLE "equipments" ADD CONSTRAINT "equipments_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "teams"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "_EquipmentToTeam" ADD CONSTRAINT "_EquipmentToTeam_A_fkey" FOREIGN KEY ("A") REFERENCES "equipments"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "employees" ADD CONSTRAINT "employees_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "teams"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "_EquipmentToTeam" ADD CONSTRAINT "_EquipmentToTeam_B_fkey" FOREIGN KEY ("B") REFERENCES "teams"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_EmployeeToTeam" ADD CONSTRAINT "_EmployeeToTeam_A_fkey" FOREIGN KEY ("A") REFERENCES "employees"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_EmployeeToTeam" ADD CONSTRAINT "_EmployeeToTeam_B_fkey" FOREIGN KEY ("B") REFERENCES "teams"("id") ON DELETE CASCADE ON UPDATE CASCADE;

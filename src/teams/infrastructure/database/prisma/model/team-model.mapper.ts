@@ -19,7 +19,13 @@ export class TeamModelMapper {
     };
 
     try {
-      return new TeamEntity(data, model.id);
+      const { employees, equipments, ...others } = data;
+      const team = {
+        ...others,
+        employees: employees.map(employee => employee.id),
+        equipments: equipments.map(equipment => equipment.id),
+      };
+      return new TeamEntity(team, model.id);
     } catch (error) {
       throw new ValidationError('An entity not be loaded');
     }

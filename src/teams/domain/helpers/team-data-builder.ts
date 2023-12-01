@@ -1,22 +1,18 @@
-import {
-  EmployeesProps,
-  EquipmentsProps,
-  TeamProps,
-} from '../entities/team.entity';
+import { TeamProps } from '../entities/team.entity';
 import { faker } from '@faker-js/faker';
 
 type Props = {
   name?: string;
-  employees?: EmployeesProps[];
-  equipments?: EquipmentsProps[];
+  employees?: string[];
+  equipments?: string[];
   createdAt?: Date;
 };
 
 export function teamDataBuilder(props: Props): TeamProps {
   return {
     name: props.name ?? faker.commerce.department(),
-    employees: props.employees ?? ([] as any),
-    equipments: props.equipments ?? ([] as any),
+    employees: props.employees ?? [],
+    equipments: props.equipments ?? [],
     createdAt: props.createdAt ?? new Date(),
   };
 }

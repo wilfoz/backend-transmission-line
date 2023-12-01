@@ -34,11 +34,11 @@ export class TeamPrismaRepository implements TeamRepository.Repository {
             mode: 'insensitive',
           },
         },
-        include: {
-          employees: true,
-          equipments: true,
-        },
       }),
+      include: {
+        employees: true,
+        equipments: true,
+      },
       orderBy: {
         [orderByField]: orderByDir,
       },
@@ -57,12 +57,32 @@ export class TeamPrismaRepository implements TeamRepository.Repository {
   }
 
   async insert(entity: TeamEntity): Promise<void> {
-    const { id, name, createdAt } = entity.toJSON();
+    const { employees, equipments, ...others } = entity.toJSON();
+    const employeesData = await Promise.all(
+      employees.map(employeeId => {
+        return this.prismaService.employee.findUnique({
+          where: {
+            id: employeeId,
+          },
+        });
+      }),
+    );
+
+    const equipmentsData = await Promise.all(
+      equipments.map(equipmentId => {
+        return this.prismaService.equipment.findUnique({
+          where: {
+            id: equipmentId,
+          },
+        });
+      }),
+    );
+
     await this.prismaService.team.create({
       data: {
-        id,
-        name,
-        createdAt,
+        ...others,
+        employees: { connect: employeesData.map(emp => ({ id: emp.id })) },
+        equipments: { connect: equipmentsData.map(eq => ({ id: eq.id })) },
       },
     });
   }

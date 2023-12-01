@@ -32,8 +32,8 @@ describe('UpdateTeamUseCase Unit Tests', () => {
     expect(result).toMatchObject({
       id: items[0].id,
       name: 'Pré-montagem',
-      employees: items[0].employees,
-      equipments: items[0].equipments,
+      employees: items[0].getEmployees(),
+      equipments: items[0].getEquipments(),
       createdAt: items[0].createdAt,
     });
   });

@@ -3,8 +3,6 @@ import { CreateTeamUseCase } from '../create-team.usecase';
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 import { teamDataBuilder } from '@/teams/domain/helpers/team-data-builder';
 import { TeamEntity, TeamProps } from '@/teams/domain/entities/team.entity';
-import { EmployeeProps } from '@/employees/domain/entities/employee.entity';
-import { EquipmentProps } from '@/equipments/domain/entities/equipments.entity';
 
 describe('CreateTeamUseCase Unit Tests', () => {
   let sut: CreateTeamUseCase.UseCase;
@@ -66,27 +64,19 @@ describe('CreateTeamUseCase Unit Tests', () => {
       });
     });
 
-    it('should create a Team', async () => {
+    it('should create a Team with employees and equipments', async () => {
       const spyInsert = jest.spyOn(repository, 'insert');
-      const output = await sut.execute(props);
-      const employees = Array.from(repository.items[0].employees.values()).map(
-        employee => {
-          return { ...employee };
-        },
-      ) as EmployeeProps[];
-
-      const equipments = Array.from(
-        repository.items[0].equipments.values(),
-      ).map(equipment => {
-        return { ...equipment };
-      }) as EquipmentProps[];
-
+      const output = await sut.execute({
+        ...props,
+        employees: ['11eb64f2-e654-481e-8818-59e3065dbbc6'],
+        equipments: ['11eb64f2-e654-481e-8818-59e3065dbbc6'],
+      });
       expect(spyInsert).toHaveBeenCalledTimes(1);
       expect(output).toStrictEqual({
         id: repository.items[0].id,
         name: repository.items[0].name,
-        employees: employees,
-        equipments: equipments,
+        employees: repository.items[0].getEmployees(),
+        equipments: repository.items[0].getEquipments(),
         createdAt: repository.items[0].createdAt,
       });
     });

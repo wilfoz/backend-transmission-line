@@ -2,17 +2,13 @@ import { UseCase as DefaultUseCase } from '@/shared/application/providers/usecas
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 import { TeamOutput, TeamOutputMapper } from '../dto/team-output';
 import { TeamRepository } from '@/teams/domain/repositories/team.repository';
-import {
-  EmployeesProps,
-  EquipmentsProps,
-  TeamEntity,
-} from '@/teams/domain/entities/team.entity';
+import { TeamEntity } from '@/teams/domain/entities/team.entity';
 
 export namespace CreateTeamUseCase {
   export type Input = {
     name: string;
-    employees?: EmployeesProps[];
-    equipments?: EquipmentsProps[];
+    employees?: string[];
+    equipments?: string[];
     createdAt?: Date;
   };
 

@@ -1,17 +1,12 @@
 import { UseCase as DefaultUseCase } from '@/shared/application/providers/usecases/use-case';
 import { TeamOutput, TeamOutputMapper } from '../dto/team-output';
 import { TeamRepository } from '@/teams/domain/repositories/team.repository';
-import {
-  EmployeesProps,
-  EquipmentsProps,
-} from '../../domain/entities/team.entity';
-
 export namespace UpdateTeamUseCase {
   export type Input = {
     id: string;
     name: string;
-    employees?: EmployeesProps[];
-    equipments?: EquipmentsProps[];
+    employees?: string[];
+    equipments?: string[];
   };
 
   export type Output = TeamOutput;

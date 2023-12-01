@@ -1,14 +1,10 @@
-import {
-  EmployeesProps,
-  EquipmentsProps,
-  TeamEntity,
-} from '@/teams/domain/entities/team.entity';
+import { TeamEntity } from '@/teams/domain/entities/team.entity';
 
 export type TeamOutput = {
   id: string;
   name: string;
-  employees?: EmployeesProps[];
-  equipments?: EquipmentsProps[];
+  employees?: string[];
+  equipments?: string[];
   createdAt: Date;
 };
 
