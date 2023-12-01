@@ -1,6 +1,7 @@
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 import AggregateRoot from '@/shared/domain/entities/agregation';
 import { TeamValidatorFactory } from '../validators/team.validator';
+import { ConflictError } from '../../../shared/domain/errors/conflict-error';
 
 export type TeamProps = {
   name: string;
@@ -45,7 +46,7 @@ export class TeamEntity extends AggregateRoot<TeamProps, TeamPropsJson> {
 
   addEmployee(id: string) {
     if (this.props.employees.includes(id)) {
-      throw new Error('Employee already exists!');
+      throw new ConflictError('Employee already exists!');
     }
     this.props.employees.push(id);
   }
@@ -64,7 +65,7 @@ export class TeamEntity extends AggregateRoot<TeamProps, TeamPropsJson> {
 
   addEquipment(id: string) {
     if (this.props.equipments.includes(id)) {
-      throw new Error('Equipment already exists!');
+      throw new ConflictError('Equipment already exists!');
     }
     this.props.equipments.push(id);
   }
