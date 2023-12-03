@@ -158,8 +158,6 @@ describe('EmployeePrismaRepository Integration tests', () => {
         );
       });
 
-      console.log(entities);
-
       await prismaService.employee.createMany({
         data: entities.map(item => item.toJSON()),
       });

@@ -2,7 +2,8 @@
 @authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWIxMDg0LWY3NjgtNDFmNS05OGU1LWM3MGE2MTAxNjkwOSIsImlhdCI6MTcwMDA3MTQzNiwiZXhwIjoxNzAwMTU3ODM2fQ.gchtoTPWHI_JtcFCaHhTBdl6JGycDFp0LD0wEeLvN8U
 @uuid=34d1a403-051d-4078-a92f-7e0c37cde6cc
 @uuid_task=2aff0e3c-37ec-43f0-8dbe-7b2f8c7c0054
-@uuid_employee=358160a8-f8d7-44a9-a479-5199dc4be94e
+@uuid_employee=1704a043-3773-4332-b8b5-0c389733e908
+@uuid_team=cfeb434d-9ede-4f9b-91d1-f7bed149e800
 
 
 
@@ -128,8 +129,8 @@ POST http://localhost:3000/employee
 content-type: application/json
 
 {
-  "registration": "REG-001",
-  "fullName": "Wesley Branco Rufino",
+  "registration": "REG-222",
+  "fullName": "Carlos Branco Rufino",
   "occupation": "Encarregado",
   "leadership": true,
   "status": "ACTIVE"
@@ -153,4 +154,56 @@ content-type: application/json
   "occupation": "Orelha",
   "leadership": true,
   "status": "ACTIVE"
+}
+
+### TEAM
+
+### CREATE
+POST http://localhost:3000/team
+content-type: application/json
+
+{
+  "name": "Equip-101",
+  "employees": [],
+  "equipments": []
+}
+
+### GET
+GET http://localhost:3000/team/{{uuid_team}}
+Content-Type: application/json
+
+### SEARCH
+GET http://localhost:3000/team?page=1&perPage=5
+Content-Type: application/json
+
+### UPDATE
+PUT http://localhost:3000/team/{{uuid_team}}
+content-type: application/json
+
+{
+  "name": "Equip-200",
+  "employees": [],
+  "equipments": []
+}
+
+### ADD EMPLOYEE
+PUT http://localhost:3000/team/add-employee/1704a043-3773-4332-b8b5-0c389733e908
+content-type: application/json
+
+{
+  "id": "cfeb434d-9ede-4f9b-91d1-f7bed149e800",
+  "name": "Equip-005",
+  "employees": [],
+  "equipments": []
+}
+
+### REMOVE EMPLOYEE
+PUT http://localhost:3000/team/del-employee/1704a043-3773-4332-b8b5-0c389733e908
+content-type: application/json
+
+{
+  "id": "cfeb434d-9ede-4f9b-91d1-f7bed149e800",
+  "name": "Equip-002",
+  "employees": [],
+  "equipments": []
 }

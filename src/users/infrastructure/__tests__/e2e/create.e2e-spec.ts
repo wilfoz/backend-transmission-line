@@ -132,7 +132,6 @@ describe('UsersController E2E Tests', () => {
         .post('/users')
         .send(Object.assign(signupDto))
         .expect(409);
-      console.log(res.body);
     });
   });
 });

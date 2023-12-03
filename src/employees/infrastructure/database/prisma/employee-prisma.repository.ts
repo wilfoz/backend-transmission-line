@@ -64,7 +64,11 @@ export class EmployeePrismaRepository implements EmployeeRepository.Repository {
   }
 
   async findAll(): Promise<EmployeeEntity[]> {
-    const models = await this.prismaService.employee.findMany();
+    const models = await this.prismaService.employee.findMany({
+      include: {
+        team: true,
+      },
+    });
     return models.map(model => {
       return EmployeeModelMapper.toEntity(model);
     });

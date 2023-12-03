@@ -3,6 +3,7 @@ import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { TeamRepository } from '@/teams/domain/repositories/team.repository';
 import { TeamModelMapper } from './model/team-model.mapper';
 import { TeamEntity } from '@/teams/domain/entities/team.entity';
+import { Employee, STATUS_EMPLOYEE, STATUS_EQUIPMENT } from '@prisma/client';
 
 export class TeamPrismaRepository implements TeamRepository.Repository {
   sortableFields: string[] = ['name', 'createdAT'];
@@ -103,19 +104,6 @@ export class TeamPrismaRepository implements TeamRepository.Repository {
     });
   }
 
-  async update(entity: TeamEntity): Promise<void> {
-    await this._get(entity._id);
-    const { employees, equipments, ...others } = entity.toJSON();
-    await this.prismaService.team.update({
-      data: {
-        ...others,
-      },
-      where: {
-        id: entity._id,
-      },
-    });
-  }
-
   async delete(id: string): Promise<void> {
     await this._get(id);
     await this.prismaService.team.delete({
@@ -123,6 +111,102 @@ export class TeamPrismaRepository implements TeamRepository.Repository {
         id,
       },
     });
+  }
+
+  async update(entity: TeamEntity): Promise<void> {
+    await this._get(entity._id);
+    await this.prismaService.team.update({
+      data: {
+        name: entity.name,
+        createdAt: entity.createdAt,
+      },
+      where: {
+        id: entity._id,
+      },
+    });
+  }
+
+  async includeAndUpdateResource(entity: TeamEntity): Promise<void> {
+    const { employees, equipments } = await this._getResources(entity);
+    const employeeIds = employees
+      .filter(emp => emp !== null)
+      .map(emp => ({ id: emp }));
+
+    const equipmentIds = equipments
+      .filter(eq => eq !== null)
+      .map(eq => ({ id: eq }));
+
+    await this.prismaService.team.update({
+      data: {
+        name: entity.name,
+        createdAt: entity.createdAt,
+        employees: {
+          connect: employeeIds,
+        },
+        equipments: {
+          connect: equipmentIds,
+        },
+      },
+      where: {
+        id: entity._id,
+      },
+    });
+  }
+
+  async removeAndUpdateResource(entity: TeamEntity): Promise<void> {
+    const { employees, equipments } = await this._getResources(entity);
+
+    const employeeIds = employees
+      .filter(emp => emp !== null)
+      .map(emp => ({ id: emp }));
+
+    const equipmentIds = equipments
+      .filter(eq => eq !== null)
+      .map(eq => ({ id: eq }));
+
+    await this.prismaService.team.update({
+      where: {
+        id: entity._id,
+      },
+      data: {
+        name: entity.name,
+        createdAt: entity.createdAt,
+        employees: {
+          disconnect: employeeIds[0],
+        },
+        equipments: {
+          disconnect: equipmentIds[0],
+        },
+      },
+    });
+  }
+
+  protected async _getResources(entity: TeamEntity) {
+    await this._get(entity._id);
+    const { employees, equipments } = entity.toJSON();
+    console.log('employees: ', entity.toJSON());
+    const employeesData = await Promise.all(
+      employees.map(async employeeId => {
+        const employee = await this.prismaService.employee.findUnique({
+          where: {
+            id: employeeId,
+          },
+        });
+        return employee ? employee.id : null;
+      }),
+    );
+
+    const equipmentsData = await Promise.all(
+      equipments.map(async equipmentId => {
+        const equipment = await this.prismaService.equipment.findUnique({
+          where: {
+            id: equipmentId,
+          },
+        });
+        return equipment ? equipment.id : null;
+      }),
+    );
+    return { employees: employeesData, equipments: equipmentsData };
   }
 
   protected async _get(id: string): Promise<TeamEntity> {

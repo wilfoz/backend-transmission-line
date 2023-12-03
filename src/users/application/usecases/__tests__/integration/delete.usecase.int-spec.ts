@@ -50,7 +50,6 @@ describe('DeleteUseCase Integration tests', () => {
     });
     expect(output).toBeNull();
     const models = await prismaService.user.findMany();
-    console.log(models.length);
     expect(models).toHaveLength(0);
   });
 });

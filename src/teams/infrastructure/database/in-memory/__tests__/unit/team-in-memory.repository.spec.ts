@@ -1,8 +1,6 @@
 import { TeamEntity } from '@/teams/domain/entities/team.entity';
 import { TeamInMemoryRepository } from '../../team-in-memory.repository';
 import { teamDataBuilder } from '@/teams/domain/helpers/team-data-builder';
-import { ConflictError } from '../../../../../../shared/domain/errors/conflict-error';
-import { NotFoundError } from '../../../../../../shared/domain/errors/not-found-error';
 
 describe('TeamInMemoryRepository Unit Tests', () => {
   let sut: TeamInMemoryRepository;
@@ -61,80 +59,4 @@ describe('TeamInMemoryRepository Unit Tests', () => {
     const itemsSorted = await sut['applySort'](items, 'name', 'asc');
     expect(itemsSorted).toStrictEqual([items[0], items[2], items[1]]);
   });
-
-  // describe('Team employees methods', () => {
-  //   it('should throw an ConflictError', async () => {
-  //     const items = [
-  //       new TeamEntity(
-  //         teamDataBuilder({
-  //           employees: ['9f869d0f-14a7-4b06-aedf-24e92b05fe6c'],
-  //         }),
-  //       ),
-  //       new TeamEntity(teamDataBuilder({})),
-  //       new TeamEntity(teamDataBuilder({})),
-  //     ];
-
-  //     sut.items = items;
-  //     await expect(() =>
-  //       sut.addEmployeeId(items[0], '9f869d0f-14a7-4b06-aedf-24e92b05fe6c'),
-  //     ).rejects.toThrow(
-  //       new ConflictError(
-  //         'ID 9f869d0f-14a7-4b06-aedf-24e92b05fe6c already exists',
-  //       ),
-  //     );
-  //   });
-
-  //   it('should throw an NotFoundError', async () => {
-  //     const items = [
-  //       new TeamEntity(teamDataBuilder({})),
-  //       new TeamEntity(teamDataBuilder({})),
-  //       new TeamEntity(teamDataBuilder({})),
-  //     ];
-
-  //     sut.items = items;
-  //     await expect(() =>
-  //       sut.removeEmployeeId(items[0], '9f869d0f-14a7-4b06-aedf-24e92b05fe6c'),
-  //     ).rejects.toThrow(
-  //       new NotFoundError('ID 9f869d0f-14a7-4b06-aedf-24e92b05fe6c not found'),
-  //     );
-  //   });
-
-  //   it('should add employee', async () => {
-  //     const items = [
-  //       new TeamEntity(teamDataBuilder({})),
-  //       new TeamEntity(teamDataBuilder({})),
-  //       new TeamEntity(teamDataBuilder({})),
-  //     ];
-  //     sut.items = items;
-
-  //     await sut.addEmployeeId(items[0], '9f869d0f-14a7-4b06-aedf-24e92b05fe6c');
-
-  //     expect(sut.items[0]).toBeInstanceOf(TeamEntity);
-  //     expect(sut.items[0].employees.length).toBe(1);
-  //     expect(sut.items[0].employees[0]).toBe(
-  //       '9f869d0f-14a7-4b06-aedf-24e92b05fe6c',
-  //     );
-  //   });
-
-  //   it('should remove equipment', async () => {
-  //     const items = [
-  //       new TeamEntity(
-  //         teamDataBuilder({
-  //           equipments: ['9f869d0f-14a7-4b06-aedf-24e92b05fe6c'],
-  //         }),
-  //       ),
-  //       new TeamEntity(teamDataBuilder({})),
-  //       new TeamEntity(teamDataBuilder({})),
-  //     ];
-
-  //     sut.items = items;
-  //     await sut.removeEquipmentId(
-  //       items[0],
-  //       '9f869d0f-14a7-4b06-aedf-24e92b05fe6c',
-  //     );
-
-  //     expect(sut.items[0].equipments.length).toBe(0);
-  //     expect(sut.items[0]).toBeInstanceOf(TeamEntity);
-  //   });
-  // });
 });

@@ -24,6 +24,7 @@ export abstract class InMemoryRepository<E extends Entity>
     const index = this.items.findIndex(item => item.id === result.id);
     this.items[index] = entity;
   }
+
   async delete(id: string): Promise<void> {
     await this._get(id);
     const index = this.items.findIndex(item => item.id === id);

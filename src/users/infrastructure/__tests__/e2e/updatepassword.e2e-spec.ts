@@ -59,7 +59,6 @@ describe('UsersController E2E Tests', () => {
       expect(Object.keys(res.body)).toStrictEqual(['data']);
 
       const user = await repository.findById(res.body.data.id);
-      console.log(user);
       const checkPassword = await hashProvider.compareHash(
         'newPassword',
         user.password,

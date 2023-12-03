@@ -25,7 +25,6 @@ describe('TaskInMemoryRepository Unit Tests', () => {
       new TaskEntity(taskDataBuilder({ stage: 'MONTAGEM' })),
       new TaskEntity(taskDataBuilder({ stage: 'LANCAMENTO' })),
     ];
-    console.log(items);
     const spyFilter = jest.spyOn(items, 'filter');
     const itemsFiltered = await sut['applyFilter'](items, 'LANCAMENTO');
     expect(spyFilter).toHaveBeenCalled();

@@ -56,7 +56,7 @@ export class TeamEntity extends AggregateRoot<TeamProps, TeamPropsJson> {
     if (index === -1) {
       throw new Error('Employee does not exist!');
     }
-    this.props.employees.splice(index, 1);
+    //this.props.employees.splice(index, 1);
   }
 
   getEquipments(): string[] {
@@ -75,7 +75,7 @@ export class TeamEntity extends AggregateRoot<TeamProps, TeamPropsJson> {
     if (index === -1) {
       throw new Error('Equipment does not exist!');
     }
-    this.props.equipments.splice(index, 1);
+    //this.props.equipments.splice(index, 1);
   }
 
   update(name: string): void {

@@ -1,12 +1,13 @@
 import { UseCase as DefaultUseCase } from '@/shared/application/providers/usecases/use-case';
 import { TeamOutput, TeamOutputMapper } from '../dto/team-output';
 import { TeamRepository } from '@/teams/domain/repositories/team.repository';
-import { TeamEntity } from '../../domain/entities/team.entity';
 export namespace RemoveEquipmentTeamUseCase {
   export type Input = {
-    team: TeamEntity;
-    equipmentId: string;
-  };
+    id: string;
+    name: string;
+    employees?: string[];
+    equipments?: string[];
+  } & Required<{ equipmentId: string }>;
 
   export type Output = TeamOutput;
 
@@ -14,10 +15,10 @@ export namespace RemoveEquipmentTeamUseCase {
     constructor(private repository: TeamRepository.Repository) { }
 
     async execute(input: Input): Promise<Output> {
-      const entity = await this.repository.findById(input.team.id);
+      const entity = await this.repository.findById(input.id);
       entity.removeEquipment(input.equipmentId);
 
-      this.repository.update(entity);
+      await this.repository.update(entity);
       return TeamOutputMapper.toOutput(entity);
     }
   }

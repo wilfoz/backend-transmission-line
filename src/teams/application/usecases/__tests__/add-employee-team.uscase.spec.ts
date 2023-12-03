@@ -18,7 +18,10 @@ describe('AddEmployeeTeamUseCase Unit Tests', () => {
   });
   it('Should trows error entity not found', async () => {
     const input = {
-      team: entity,
+      id: entity.id,
+      name: entity.name,
+      employees: entity.employees,
+      equipments: entity.equipments,
       employeeId: '96010fff-fc27-406c-bba0-44182c7b67a0',
     };
     await expect(() => sut.execute(input)).rejects.toThrow(
@@ -34,8 +37,12 @@ describe('AddEmployeeTeamUseCase Unit Tests', () => {
         }),
       ),
     ];
+
     const input = {
-      team: items[0],
+      id: items[0].id,
+      name: items[0].name,
+      employees: items[0].employees,
+      equipments: items[0].equipments,
       employeeId: '96010fff-fc27-406c-bba0-44182c7b67a0',
     };
 
@@ -52,7 +59,10 @@ describe('AddEmployeeTeamUseCase Unit Tests', () => {
     repository.items = items;
 
     const input = {
-      team: items[0],
+      id: items[0].id,
+      name: items[0].name,
+      employees: items[0].employees,
+      equipments: items[0].equipments,
       employeeId: '96010fff-fc27-406c-bba0-44182c7b67a0',
     };
 

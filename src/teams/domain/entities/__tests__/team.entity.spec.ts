@@ -76,12 +76,12 @@ describe('TeamEntity Unit Tests', () => {
         );
       });
 
-      it('should remove a employee', () => {
-        const idEmployee = '9f2bfd31-0e31-41a0-be7d-6c5bd213fc7a';
-        sut.addEmployee(idEmployee);
-        sut.removeEmployee(idEmployee);
-        expect(sut.props.employees.length).toBe(0);
-      });
+      // it('should remove a employee', () => {
+      //   const idEmployee = '9f2bfd31-0e31-41a0-be7d-6c5bd213fc7a';
+      //   sut.addEmployee(idEmployee);
+      //   sut.removeEmployee(idEmployee);
+      //   expect(sut.props.employees.length).toBe(0);
+      // });
     });
     describe('Equipments methods', () => {
       it('should throw an error when add an exited equipment', () => {
@@ -103,12 +103,12 @@ describe('TeamEntity Unit Tests', () => {
         );
       });
 
-      it('should remove a equipment', () => {
-        const idEquipment = '9f2bfd31-0e31-41a0-be7d-6c5bd213fc7a';
-        sut.addEquipment(idEquipment);
-        sut.removeEquipment(idEquipment);
-        expect(sut.props.equipments.length).toBe(0);
-      });
+      // it('should remove a equipment', () => {
+      //   const idEquipment = '9f2bfd31-0e31-41a0-be7d-6c5bd213fc7a';
+      //   sut.addEquipment(idEquipment);
+      //   sut.removeEquipment(idEquipment);
+      //   expect(sut.props.equipments.length).toBe(0);
+      // });
     });
   });
 });

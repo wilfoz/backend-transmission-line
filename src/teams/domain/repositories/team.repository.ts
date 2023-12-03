@@ -19,9 +19,7 @@ export namespace TeamRepository {
       SearchParams,
       SearchResult
     > {
-    // addEmployeeId(team: TeamEntity, employeeId: string): Promise<void>;
-    // removeEmployeeId(team: TeamEntity, employeeId: string): Promise<void>;
-    // addEquipmentId(team: TeamEntity, equipmentId: string): Promise<void>;
-    // removeEquipmentId(team: TeamEntity, equipmentId: string): Promise<void>;
+    includeAndUpdateResource(team: TeamEntity): Promise<void>;
+    removeAndUpdateResource(team: TeamEntity): Promise<void>;
   }
 }
