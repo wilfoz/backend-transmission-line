@@ -13,6 +13,7 @@ export class EquipmentModelMapper {
       licensePlate: model.licensePlate,
       provider: model.provider,
       status: model.status,
+      teamId: model.teamId,
       createdAt: model.createdAt,
     };
 

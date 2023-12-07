@@ -7,6 +7,7 @@ type Props = {
   occupation?: string;
   leadership?: boolean;
   status?: Status;
+  teamId?: string | null;
   createdAt?: Date;
 };
 
@@ -17,6 +18,7 @@ export function employeeDataBuilder(props: Props): EmployeeProps {
     occupation: props.occupation ?? faker.person.jobTitle(),
     leadership: props.leadership ?? true,
     status: props.status ?? 'ACTIVE',
+    teamId: null,
     createdAt: props.createdAt ?? new Date(),
   };
 }

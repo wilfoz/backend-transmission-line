@@ -24,6 +24,7 @@ describe('EquipmentModelMapper Integration tests', () => {
       licensePlate: 'AAA:2133',
       provider: 'Fiat',
       status: 'ACTIVE',
+      teamId: null,
       createdAt: new Date(),
     };
   });

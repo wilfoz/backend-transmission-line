@@ -15,6 +15,7 @@ describe('EmployeePresenter', () => {
     fullName: 'Marcos',
     occupation: 'Encarregado',
     leadership: true,
+    teamId: null,
     status: 'ACTIVE' as Status,
     createdAt,
   };
@@ -44,6 +45,7 @@ describe('EmployeePresenter', () => {
       occupation: 'Encarregado',
       leadership: true,
       status: 'ACTIVE' as Status,
+      teamId: null,
       createdAt: createdAt.toISOString(),
     });
   });
@@ -58,6 +60,7 @@ describe('EmployeesCollectionPresenter', () => {
     fullName: 'Marcos',
     occupation: 'Encarregado',
     leadership: true,
+    teamId: null,
     status: 'ACTIVE' as Status,
     createdAt,
   };
@@ -103,6 +106,7 @@ describe('EmployeesCollectionPresenter', () => {
           occupation: 'Encarregado',
           leadership: true,
           status: 'ACTIVE' as Status,
+          teamId: null,
           createdAt: createdAt.toISOString(),
         },
       ],
@@ -131,6 +135,7 @@ describe('EmployeesCollectionPresenter', () => {
           occupation: 'Encarregado',
           leadership: true,
           status: 'ACTIVE' as Status,
+          teamId: null,
           createdAt: createdAt.toISOString(),
         },
       ],

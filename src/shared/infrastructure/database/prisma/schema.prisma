@@ -21,21 +21,22 @@ model User {
 }
 
 model Tower {
-  id                    String   @id @db.Uuid
-  code                  Int      @db.Integer
-  tower                 String   @db.VarChar(20)
-  type                  String   @db.VarChar(20)
-  coordinates           Json     @db.Json
-  distance              Float?   @db.DoublePrecision
-  height                Float?   @db.DoublePrecision
-  weight                Float?   @db.DoublePrecision
-  type_of_foundation_A  String?  @db.VarChar(20)
-  type_of_foundation_B  String?  @db.VarChar(20)
-  type_of_foundation_C  String?  @db.VarChar(20)
-  type_of_foundation_D  String?  @db.VarChar(20)
-  type_of_foundation_MC String?  @db.VarChar(20)
-  embargo               String?  @db.VarChar(20)
-  createdAt             DateTime @default(now())
+  id                    String       @id @db.Uuid
+  code                  Int          @db.Integer
+  tower                 String       @db.VarChar(20)
+  type                  String       @db.VarChar(20)
+  coordinates           Json         @db.Json
+  distance              Float?       @db.DoublePrecision
+  height                Float?       @db.DoublePrecision
+  weight                Float?       @db.DoublePrecision
+  type_of_foundation_A  String?      @db.VarChar(20)
+  type_of_foundation_B  String?      @db.VarChar(20)
+  type_of_foundation_C  String?      @db.VarChar(20)
+  type_of_foundation_D  String?      @db.VarChar(20)
+  type_of_foundation_MC String?      @db.VarChar(20)
+  embargo               String?      @db.VarChar(20)
+  createdAt             DateTime     @default(now())
+  Production            Production[]
 
   @@map("towers")
 }
@@ -49,6 +50,8 @@ model Task {
   unit      String   @db.VarChar(20)
   createdAt DateTime @default(now())
 
+  production Production?
+
   @@map("tasks")
 }
 
@@ -59,8 +62,8 @@ model Team {
 
   employees  Employee[]
   equipments Equipment[]
+  production Production[]
 
-  // production Production[]
   @@map("teams")
 }
 
@@ -74,7 +77,8 @@ model Equipment {
   status       STATUS_EQUIPMENT @default(ACTIVE)
   createdAt    DateTime         @default(now())
 
-  team Team[]
+  team   Team?   @relation(fields: [teamId], references: [id])
+  teamId String? @db.Uuid
 
   @@map("equipments")
 }
@@ -87,32 +91,29 @@ model Employee {
   leadership   Boolean         @db.Boolean
   status       STATUS_EMPLOYEE @default(ACTIVE)
   createdAt    DateTime        @default(now())
-
-  team Team[]
+  team         Team?           @relation(fields: [teamId], references: [id])
+  teamId       String?         @db.Uuid
 
   @@map("employees")
 }
 
-// model Production {
-//   id Int @id @default(autoincrement())
+model Production {
+  id        String            @id @db.Uuid
+  status    STATUS_PRODUCTION @default(EXECUTED)
+  comments  String?
+  startTime DateTime?
+  finalTime DateTime?
+  createdAt DateTime          @default(now())
+  //weather  WEATHER           @default(BOM)
 
-//   comments String?
-//   status   STATUS_PRODUCTION @default(PROGRAMADO)
-//   weather  WEATHER           @default(BOM)
-//   task     Task              @relation(fields: [taskId], references: [id])
-//   taskId   Int
+  task   Task   @relation(fields: [taskId], references: [id])
+  taskId String @unique @db.Uuid
 
-//   tower  ListConstruction @relation(fields: [listId], references: [id])
-//   listId Int
+  towers Tower[]
+  teams  Team[]
 
-//   team   Team @relation(fields: [teamId], references: [id])
-//   teamId Int
-
-//   productionDate DateTime
-
-//   startTimeOfDay String?
-//   endTimeOfDay   String?
-// }
+  @@map("productions")
+}
 
 enum STATUS_EQUIPMENT {
   ACTIVE
@@ -121,9 +122,9 @@ enum STATUS_EQUIPMENT {
 }
 
 enum STATUS_PRODUCTION {
-  EXECUTADO
-  PROGRAMADO
-  ANDAMENTO
+  EXECUTED
+  PROGRAMMED
+  PROGRESS
 }
 
 enum STATUS_EMPLOYEE {

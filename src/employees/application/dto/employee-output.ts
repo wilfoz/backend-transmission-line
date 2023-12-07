@@ -10,6 +10,7 @@ export type EmployeeOutput = {
   occupation: string;
   leadership: boolean;
   status: Status;
+  teamId: string | null;
   createdAt: Date;
 };
 

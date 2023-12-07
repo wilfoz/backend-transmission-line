@@ -184,7 +184,6 @@ export class TeamPrismaRepository implements TeamRepository.Repository {
   protected async _getResources(entity: TeamEntity) {
     await this._get(entity._id);
     const { employees, equipments } = entity.toJSON();
-    console.log('employees: ', entity.toJSON());
     const employeesData = await Promise.all(
       employees.map(async employeeId => {
         const employee = await this.prismaService.employee.findUnique({

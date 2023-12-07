@@ -33,6 +33,10 @@ export class EmployeeRules {
   @IsNotEmpty()
   status: Status;
 
+  @IsString()
+  @IsOptional()
+  teamId: string;
+
   @IsDate()
   @IsOptional()
   createdAt?: Date;
@@ -43,6 +47,7 @@ export class EmployeeRules {
     occupation,
     leadership,
     status,
+    teamId,
     createdAt,
   }: EmployeeProps) {
     Object.assign(this, {
@@ -51,6 +56,7 @@ export class EmployeeRules {
       occupation,
       leadership,
       status,
+      teamId,
       createdAt,
     });
   }

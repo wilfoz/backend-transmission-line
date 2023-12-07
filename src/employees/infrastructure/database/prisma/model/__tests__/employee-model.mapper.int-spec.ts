@@ -23,6 +23,7 @@ describe('EmployeeModelMapper Integration tests', () => {
       occupation: 'Encarregado',
       leadership: true,
       status: 'ACTIVE',
+      teamId: null,
       createdAt: new Date(),
     };
   });

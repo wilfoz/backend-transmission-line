@@ -10,6 +10,7 @@ export type EmployeeProps = {
   occupation: string;
   leadership: boolean;
   status: Status;
+  teamId?: string;
   createdAt?: Date;
 };
 
@@ -63,6 +64,10 @@ export class EmployeeEntity extends AggregateRoot<
 
   private set status(value: Status) {
     this.props.status = value;
+  }
+
+  get teamId() {
+    return this.props.teamId;
   }
 
   get createdAt() {

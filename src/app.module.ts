@@ -8,6 +8,7 @@ import { TaskModule } from './task/infrastructure/task.module';
 import { EmployeesModule } from './employees/infrastructure/employees.module';
 import { EquipmentsModule } from './equipments/infrastructure/equipments.module';
 import { TeamsModule } from './teams/infrastructure/teams.module';
+import { ProductionsModule } from './productions/infrastructure/productions.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TeamsModule } from './teams/infrastructure/teams.module';
     EmployeesModule,
     EquipmentsModule,
     TeamsModule,
+    ProductionsModule,
   ],
 })
 export class AppModule { }

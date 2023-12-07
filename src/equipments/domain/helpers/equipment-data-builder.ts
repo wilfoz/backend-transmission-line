@@ -8,6 +8,7 @@ type Props = {
   licensePlate?: string;
   provider?: string;
   status?: Status;
+  teamId?: string | null;
   createdAt?: Date;
 };
 
@@ -19,6 +20,7 @@ export function equipmentDataBuilder(props: Props): EquipmentProps {
     licensePlate: props.licensePlate ?? faker.vehicle.vrm(),
     provider: props.provider ?? faker.commerce.productDescription(),
     status: props.status ?? 'ACTIVE',
+    teamId: null,
     createdAt: props.createdAt ?? new Date(),
   };
 }

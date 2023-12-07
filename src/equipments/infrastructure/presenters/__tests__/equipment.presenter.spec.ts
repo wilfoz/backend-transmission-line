@@ -17,6 +17,7 @@ describe('EquipmentPresenter', () => {
     licensePlate: 'AAA:2133',
     provider: 'Fiat',
     status: 'ACTIVE' as Status,
+    teamId: null,
     createdAt,
   };
 
@@ -46,6 +47,7 @@ describe('EquipmentPresenter', () => {
       licensePlate: 'AAA:2133',
       provider: 'Fiat',
       status: 'ACTIVE' as Status,
+      teamId: null,
       createdAt: createdAt.toISOString(),
     });
   });
@@ -62,6 +64,7 @@ describe('EquipmentsCollectionPresenter', () => {
     licensePlate: 'AAA:2133',
     provider: 'Fiat',
     status: 'ACTIVE' as Status,
+    teamId: null,
     createdAt,
   };
 
@@ -107,6 +110,7 @@ describe('EquipmentsCollectionPresenter', () => {
           licensePlate: 'AAA:2133',
           provider: 'Fiat',
           status: 'ACTIVE' as Status,
+          teamId: null,
           createdAt: createdAt.toISOString(),
         },
       ],
@@ -136,6 +140,7 @@ describe('EquipmentsCollectionPresenter', () => {
           licensePlate: 'AAA:2133',
           provider: 'Fiat',
           status: 'ACTIVE' as Status,
+          teamId: null,
           createdAt: createdAt.toISOString(),
         },
       ],

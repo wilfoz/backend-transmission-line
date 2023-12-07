@@ -26,6 +26,7 @@ describe('EmployeeController Unit Tests', () => {
       occupation: 'Ajudante',
       leadership: false,
       status: 'ACTIVE',
+      teamId: null,
       createdAt: new Date(),
     };
   });

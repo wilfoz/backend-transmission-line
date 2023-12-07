@@ -11,6 +11,7 @@ export class EquipmentPresenter {
   manufacturer: string;
   licensePlate: string;
   provider: string;
+  teamId: string | null;
   status: Status;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
@@ -24,6 +25,7 @@ export class EquipmentPresenter {
     this.licensePlate = output.licensePlate;
     this.provider = output.provider;
     this.status = output.status;
+    this.teamId = output.teamId ?? null;
     this.createdAt = output.createdAt;
   }
 }

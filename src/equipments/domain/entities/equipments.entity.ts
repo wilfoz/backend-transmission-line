@@ -11,6 +11,7 @@ export type EquipmentProps = {
   licensePlate: string;
   provider: string;
   status: Status;
+  teamId?: string;
   createdAt?: Date;
 };
 
@@ -72,6 +73,10 @@ export class EquipmentEntity extends AggregateRoot<
 
   private set status(value: Status) {
     this.props.status = value;
+  }
+
+  get teamId() {
+    return this.props.teamId;
   }
 
   get createdAt() {

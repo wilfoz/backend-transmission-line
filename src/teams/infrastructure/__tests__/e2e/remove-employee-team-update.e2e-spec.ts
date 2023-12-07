@@ -68,7 +68,7 @@ describe('TeamsController E2E Tests', () => {
           data: {
             id: entity._id,
             name: entity.name,
-            employees: [],
+            employees: [employeeId],
             equipments: [],
             createdAt: entity.createdAt.toISOString(),
           },

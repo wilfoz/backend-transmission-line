@@ -27,6 +27,7 @@ describe('EquipmentController Unit Tests', () => {
       licensePlate: 'AAA:2133',
       provider: 'Fiat',
       status: 'ACTIVE',
+      teamId: null,
       createdAt: new Date(),
     };
   });

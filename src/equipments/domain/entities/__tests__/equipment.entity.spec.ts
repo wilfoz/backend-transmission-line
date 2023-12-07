@@ -100,6 +100,10 @@ describe('EquipmentEntity Unit Tests', () => {
       expect(typeof sut.props.status).toBe('string');
     });
 
+    it('Getter of teamId fields', () => {
+      expect(sut.teamId).toBeDefined();
+    });
+
     it('Getter of createdAt fields', () => {
       expect(sut.createdAt).toBeDefined();
       expect(sut.createdAt).toBeInstanceOf(Date);

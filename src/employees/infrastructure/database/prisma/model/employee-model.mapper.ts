@@ -12,6 +12,7 @@ export class EmployeeModelMapper {
       occupation: model.occupation,
       leadership: model.leadership,
       status: model.status,
+      teamId: model.teamId,
       createdAt: model.createdAt,
     };
 

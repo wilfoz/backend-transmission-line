@@ -130,8 +130,8 @@ content-type: application/json
 
 {
   "registration": "REG-222",
-  "fullName": "Carlos Branco Rufino",
-  "occupation": "Encarregado",
+  "fullName": "Mauro Doido Kubs",
+  "occupation": "Montador",
   "leadership": true,
   "status": "ACTIVE"
 }

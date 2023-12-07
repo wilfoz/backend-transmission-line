@@ -39,6 +39,10 @@ export class EquipmentRules {
   @IsNotEmpty()
   status: Status;
 
+  @IsString()
+  @IsOptional()
+  teamId?: string;
+
   @IsDate()
   @IsOptional()
   createdAt?: Date;
@@ -50,6 +54,7 @@ export class EquipmentRules {
     licensePlate,
     provider,
     status,
+    teamId,
     createdAt,
   }: EquipmentRules) {
     Object.assign(this, {
@@ -59,6 +64,7 @@ export class EquipmentRules {
       licensePlate,
       provider,
       status,
+      teamId,
       createdAt,
     });
   }

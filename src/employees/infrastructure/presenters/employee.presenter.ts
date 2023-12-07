@@ -9,6 +9,7 @@ export class EmployeePresenter {
   fullName: string;
   occupation: string;
   leadership: boolean;
+  teamId: string | null;
   status: Status;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
@@ -21,6 +22,7 @@ export class EmployeePresenter {
     this.occupation = output.occupation;
     this.leadership = output.leadership;
     this.status = output.status;
+    this.teamId = output.teamId ?? null;
     this.createdAt = output.createdAt;
   }
 }

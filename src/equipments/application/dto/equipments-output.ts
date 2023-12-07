@@ -11,6 +11,7 @@ export type EquipmentOutput = {
   licensePlate: string;
   provider: string;
   status: Status;
+  teamId: string | null;
   createdAt?: Date;
 };
 
