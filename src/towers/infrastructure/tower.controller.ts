@@ -23,7 +23,9 @@ import {
 } from './presenters/tower.presenter';
 import { ListTowerDto } from './dto/list-tower.dto';
 import { UpdateTowerDto } from './dto/update-tower.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('towers')
 @Controller('tower')
 export class TowerController {
   @Inject(CreateTowerUseCase.UseCase)

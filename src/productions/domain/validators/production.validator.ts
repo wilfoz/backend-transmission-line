@@ -1,6 +1,9 @@
 import {
+  ArrayMaxSize,
+  ArrayNotEmpty,
   IsArray,
   IsDate,
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -11,9 +14,11 @@ import {
   STATUS_PRODUCTION,
 } from '../entities/production.entity';
 
+const status = ['EXECUTED', 'PROGRAMMED', 'PROGRESS'];
 export class ProductionRules {
   @IsString()
   @IsNotEmpty()
+  @IsIn(status)
   status: STATUS_PRODUCTION | string;
 
   @IsString()
@@ -29,11 +34,11 @@ export class ProductionRules {
   finalTime?: Date;
 
   @IsArray()
-  @IsNotEmpty()
+  @ArrayNotEmpty()
   teams: string[];
 
   @IsArray()
-  @IsNotEmpty()
+  @ArrayNotEmpty()
   towers: string[];
 
   @IsString()

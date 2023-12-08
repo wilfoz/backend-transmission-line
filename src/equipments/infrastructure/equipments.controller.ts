@@ -23,7 +23,9 @@ import {
 import { CreateEquipmentDto } from './dto/create-equipment.dto';
 import { ListEquipmentDto } from './dto/list-equipment.dto';
 import { UpdateEquipmentDto } from './dto/update-equipment.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('equipments')
 @Controller('equipment')
 export class EquipmentsController {
   @Inject(CreateEquipmentUseCase.UseCase)

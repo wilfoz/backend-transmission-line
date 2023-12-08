@@ -23,7 +23,9 @@ import { EmployeeOutput } from '../application/dto/employee-output';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { ListEmployeeDto } from './dto/list-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('employees')
 @Controller('employee')
 export class EmployeesController {
   @Inject(CreateEmployeeUseCase.UseCase)

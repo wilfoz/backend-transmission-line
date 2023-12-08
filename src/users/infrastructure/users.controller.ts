@@ -30,7 +30,9 @@ import {
   UserPresenter,
 } from './presenters/user.presenter';
 import { AuthService } from '@/auth/infrastructure/auth.service';
+import { ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   @Inject(SignupUseCase.UseCase)
@@ -65,12 +67,47 @@ export class UsersController {
     return new UserCollectionPresenter(output);
   }
 
+  @ApiResponse({
+    status: 201,
+    description: 'Sucesso',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Conflito de e-mail',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Corpo de requisição com dados inválidos',
+  })
   @Post()
   async create(@Body() signupDto: SignupDto) {
     const output = await this.signUpUseCase.execute(signupDto);
     return UsersController.userToResponse(output);
   }
 
+  @ApiResponse({
+    status: 200,
+    schema: {
+      type: 'object',
+      properties: {
+        accessToken: {
+          type: 'string',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Corpo de requisição com dados inválidos',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'E-mail não encontrado',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Credenciais inválidas',
+  })
   @HttpCode(200)
   @Post('login')
   async login(@Body() signInDto: SignInDto) {
@@ -78,18 +115,85 @@ export class UsersController {
     return this.authService.generateJwt(output.id);
   }
 
+  @ApiResponse({
+    status: 200,
+    schema: {
+      type: 'object',
+      properties: {
+        meta: {
+          type: 'object',
+          properties: {
+            total: {
+              type: 'number',
+            },
+            currentPage: {
+              type: 'number',
+            },
+            lastPage: {
+              type: 'number',
+            },
+            perPage: {
+              type: 'number',
+            },
+          },
+        },
+        data: {
+          type: 'array',
+          items: {
+            $ref: getSchemaPath(UserPresenter),
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Parâmetros de consulta inválidos',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Acesso não autorizado',
+  })
   @Get()
   async search(@Query() searchParams: ListUsersDto) {
     const output = await this.listUsersUseCase.execute(searchParams);
     return UsersController.listUsersToResponse(output);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Id não encontrado',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Acesso não autorizado',
+  })
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const output = await this.getUserUseCase.execute({ id });
     return UsersController.userToResponse(output);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Id não encontrado',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Corpo de requisição com dados inválidos',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Acesso não autorizado',
+  })
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const output = await this.updateUserUseCase.execute({
@@ -99,6 +203,22 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Id não encontrado',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Corpo de requisição com dados inválidos',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Acesso não autorizado',
+  })
   @Patch(':id')
   async updatePassword(
     @Param('id') id: string,
@@ -111,6 +231,18 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiResponse({
+    status: 204,
+    description: 'Resposta de confirmação da exclusão',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Id não encontrado',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Acesso não autorizado',
+  })
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id: string) {

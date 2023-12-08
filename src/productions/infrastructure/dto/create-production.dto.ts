@@ -1,4 +1,5 @@
 import {
+  ArrayNotEmpty,
   IsArray,
   IsDate,
   IsNotEmpty,
@@ -26,11 +27,11 @@ export class CreateProductionDto implements CreateProductionUseCase.Input {
   finalTime?: Date;
 
   @IsArray()
-  @IsNotEmpty()
+  @ArrayNotEmpty()
   teams: string[];
 
   @IsArray()
-  @IsNotEmpty()
+  @ArrayNotEmpty()
   towers: string[];
 
   @IsString()

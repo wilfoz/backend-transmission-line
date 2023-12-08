@@ -24,6 +24,7 @@ describe('ProductionValidator Integration Tests', () => {
       let isValid = sut.validate(null as any);
       expect(isValid).toBeFalsy();
       expect(sut.errors['status']).toStrictEqual([
+        'status must be one of the following values: EXECUTED, PROGRAMMED, PROGRESS',
         'status should not be empty',
         'status must be a string',
       ]);
@@ -34,6 +35,7 @@ describe('ProductionValidator Integration Tests', () => {
       });
       expect(isValid).toBeFalsy();
       expect(sut.errors['status']).toStrictEqual([
+        'status must be one of the following values: EXECUTED, PROGRAMMED, PROGRESS',
         'status should not be empty',
       ]);
 
@@ -42,7 +44,10 @@ describe('ProductionValidator Integration Tests', () => {
         status: 1 as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['status']).toStrictEqual(['status must be a string']);
+      expect(sut.errors['status']).toStrictEqual([
+        'status must be one of the following values: EXECUTED, PROGRAMMED, PROGRESS',
+        'status must be a string',
+      ]);
     });
   });
 
@@ -97,7 +102,10 @@ describe('ProductionValidator Integration Tests', () => {
         teams: 1 as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['teams']).toStrictEqual(['teams must be an array']);
+      expect(sut.errors['teams']).toStrictEqual([
+        'teams should not be empty',
+        'teams must be an array',
+      ]);
     });
 
     it('invalidation cases for towers field', () => {
@@ -123,7 +131,10 @@ describe('ProductionValidator Integration Tests', () => {
         towers: 1 as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['towers']).toStrictEqual(['towers must be an array']);
+      expect(sut.errors['towers']).toStrictEqual([
+        'towers should not be empty',
+        'towers must be an array',
+      ]);
     });
 
     it('invalidation cases for taskId field', () => {

@@ -19,7 +19,7 @@ describe('ProductionInMemoryRepository Unit Tests', () => {
     expect(itemsFiltered).toStrictEqual(result);
   });
 
-  it('should filter model field using filter params', async () => {
+  it('should filter status using filter params', async () => {
     const items = [
       new ProductionEntity(productionDataBuilder({ status: 'EXECUTED' })),
       new ProductionEntity(productionDataBuilder({ status: 'PROGRAMMED' })),
@@ -27,6 +27,7 @@ describe('ProductionInMemoryRepository Unit Tests', () => {
     ];
     const spyFilter = jest.spyOn(items, 'filter');
     const itemsFiltered = await sut['applyFilter'](items, 'PROGRAMMED');
+
     expect(spyFilter).toHaveBeenCalled();
     expect(itemsFiltered).toStrictEqual([items[1]]);
   });
@@ -57,6 +58,6 @@ describe('ProductionInMemoryRepository Unit Tests', () => {
       new ProductionEntity(productionDataBuilder({ status: 'PROGRAMMED' })),
     ];
     const itemsSorted = await sut['applySort'](items, 'status', 'asc');
-    expect(itemsSorted).toStrictEqual([items[0], items[1], items[2]]);
+    expect(itemsSorted).toStrictEqual([items[0], items[2], items[1]]);
   });
 });

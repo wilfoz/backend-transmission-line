@@ -24,9 +24,7 @@ describe('ProductionModelMapper Integration tests', () => {
     await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
 
-    props = new ProductionEntity(
-      productionDataBuilder({ teams: [], towers: [] }),
-    ).toJSON();
+    props = new ProductionEntity(productionDataBuilder({})).toJSON();
     task = await prismaService.task.create({
       data: {
         id: props.taskId,
