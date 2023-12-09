@@ -7,7 +7,7 @@ export default {
     prefix: '<rootDir>/',
   }),
   testTimeout: 20000,
-  testRegex: '.*\\..*spec\\.ts$',
+  testRegex: '.*\\.spec\\.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
