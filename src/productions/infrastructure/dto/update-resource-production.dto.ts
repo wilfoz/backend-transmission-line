@@ -1,3 +1,4 @@
+import { STATUS_PRODUCTION } from '@prisma/client';
 import {
   IsArray,
   IsDate,
@@ -5,10 +6,11 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { CreateProductionUseCase } from '../../application/usecases/create-production.usecase';
-import { STATUS_PRODUCTION } from '../../domain/entities/production.entity';
 
-export class CreateProductionDto implements CreateProductionUseCase.Input {
+export class UpdateResourceProductionDto {
+  @IsString()
+  id: string;
+
   @IsString()
   @IsNotEmpty()
   status: STATUS_PRODUCTION;

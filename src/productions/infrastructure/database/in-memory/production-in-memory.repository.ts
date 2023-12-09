@@ -16,7 +16,7 @@ export class ProductionInMemoryRepository
       return items;
     }
     return items.filter(item => {
-      return item.props.status.toLowerCase().includes(filter.toLowerCase());
+      return item.props.comments.toLowerCase().includes(filter.toLowerCase());
     });
   }
 

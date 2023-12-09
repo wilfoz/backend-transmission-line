@@ -149,93 +149,83 @@ export class ProductionPrismaRepository
     });
   }
 
-  // async includeAndUpdateResource(entity: TeamEntity): Promise<void> {
-  //   const { employees, equipments } = await this._getResources(entity);
-  //   const employeeIds = employees
-  //     .filter(emp => emp !== null)
-  //     .map(emp => ({ id: emp }));
+  async includeAndUpdateResource(entity: ProductionEntity): Promise<void> {
+    const { teams, towers } = await this._getResources(entity);
+    const teamIds = teams.filter(emp => emp !== null).map(emp => ({ id: emp }));
+    const towerIds = towers.filter(eq => eq !== null).map(eq => ({ id: eq }));
 
-  //   const equipmentIds = equipments
-  //     .filter(eq => eq !== null)
-  //     .map(eq => ({ id: eq }));
-
-  //   await this.prismaService.team.update({
-  //     data: {
-  //       name: entity.name,
-  //       createdAt: entity.createdAt,
-  //       employees: {
-  //         connect: employeeIds,
-  //       },
-  //       equipments: {
-  //         connect: equipmentIds,
-  //       },
-  //     },
-  //     where: {
-  //       id: entity._id,
-  //     },
-  //   });
-  // }
-
-  // async removeAndUpdateResource(entity: TeamEntity): Promise<void> {
-  //   const { employees, equipments } = await this._getResources(entity);
-
-  //   const employeeIds = employees
-  //     .filter(emp => emp !== null)
-  //     .map(emp => ({ id: emp }));
-
-  //   const equipmentIds = equipments
-  //     .filter(eq => eq !== null)
-  //     .map(eq => ({ id: eq }));
-
-  //   await this.prismaService.team.update({
-  //     where: {
-  //       id: entity._id,
-  //     },
-  //     data: {
-  //       name: entity.name,
-  //       createdAt: entity.createdAt,
-  //       employees: {
-  //         disconnect: employeeIds[0],
-  //       },
-  //       equipments: {
-  //         disconnect: equipmentIds[0],
-  //       },
-  //     },
-  //   });
-  // }
-
-  // protected async _getResources(entity: TeamEntity) {
-  //   await this._get(entity._id);
-  //   const { employees, equipments } = entity.toJSON();
-  //   const employeesData = await Promise.all(
-  //     employees.map(async employeeId => {
-  //       const employee = await this.prismaService.employee.findUnique({
-  //         where: {
-  //           id: employeeId,
-  //         },
-  //       });
-  //       return employee ? employee.id : null;
-  //     }),
-  //   );
-
-  //   const equipmentsData = await Promise.all(
-  //     equipments.map(async equipmentId => {
-  //       const equipment = await this.prismaService.equipment.findUnique({
-  //         where: {
-  //           id: equipmentId,
-  //         },
-  //       });
-  //       return equipment ? equipment.id : null;
-  //     }),
-  //   );
-  //   return { employees: employeesData, equipments: equipmentsData };
-  // }
-
-  includeAndUpdateResource(production: ProductionEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+    await this.prismaService.production.update({
+      where: {
+        id: entity._id,
+      },
+      data: {
+        status: entity.status as STATUS_PRODUCTION,
+        comments: entity.comments,
+        startTime: entity.startTime,
+        finalTime: entity.finalTime,
+        createdAt: entity.createdAt,
+        teams: {
+          connect: teamIds,
+        },
+        towers: {
+          connect: towerIds,
+        },
+        taskId: entity.taskId,
+      },
+    });
   }
-  removeAndUpdateResource(production: ProductionEntity): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async removeAndUpdateResource(entity: ProductionEntity): Promise<void> {
+    const { teams, towers } = await this._getResources(entity);
+    const teamIds = teams.filter(emp => emp !== null).map(emp => ({ id: emp }));
+    const towerIds = towers.filter(eq => eq !== null).map(eq => ({ id: eq }));
+
+    await this.prismaService.production.update({
+      where: {
+        id: entity._id,
+      },
+      data: {
+        status: entity.status as STATUS_PRODUCTION,
+        comments: entity.comments,
+        startTime: entity.startTime,
+        finalTime: entity.finalTime,
+        createdAt: entity.createdAt,
+        teams: {
+          disconnect: teamIds,
+        },
+        towers: {
+          disconnect: towerIds,
+        },
+        taskId: entity.taskId,
+      },
+    });
+  }
+
+  protected async _getResources(entity: ProductionEntity) {
+    await this._get(entity._id);
+    const { teams, towers } = entity.toJSON();
+    const teamsData = await Promise.all(
+      teams.map(async teamId => {
+        const team = await this.prismaService.team.findUnique({
+          where: {
+            id: teamId,
+          },
+        });
+        return team ? team.id : null;
+      }),
+    );
+
+    const towersData = await Promise.all(
+      towers.map(async towerId => {
+        const tower = await this.prismaService.tower.findUnique({
+          where: {
+            id: towerId,
+          },
+        });
+        return tower ? tower.id : null;
+      }),
+    );
+    return { teams: teamsData, towers: towersData };
   }
 
   protected async _get(id: string): Promise<ProductionEntity> {
@@ -245,7 +235,6 @@ export class ProductionPrismaRepository
         include: {
           teams: true,
           towers: true,
-          task: true,
         },
       });
       return ProductionModelMapper.toEntity(production);

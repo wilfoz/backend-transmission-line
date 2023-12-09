@@ -76,7 +76,7 @@ describe('ListProductionsUseCase Unit Tests', () => {
     });
   });
 
-  it('should return the teams pagination, sorted and filter', async () => {
+  it('should return the production pagination, sorted and filter', async () => {
     const items = [
       new ProductionEntity(productionDataBuilder({ comments: 'test' })),
       new ProductionEntity(productionDataBuilder({ comments: 'TEST' })),

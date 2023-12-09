@@ -80,61 +80,35 @@ describe('ProductionValidator Integration Tests', () => {
     });
 
     it('invalidation cases for teams field', () => {
-      let isValid = sut.validate(null as any);
-      expect(isValid).toBeFalsy();
-      expect(sut.errors['teams']).toStrictEqual([
-        'teams should not be empty',
-        'teams must be an array',
-      ]);
-
-      isValid = sut.validate({
+      let isValid = sut.validate({
         ...productionDataBuilder({}),
         teams: '' as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['teams']).toStrictEqual([
-        'teams should not be empty',
-        'teams must be an array',
-      ]);
+      expect(sut.errors['teams']).toStrictEqual(['teams must be an array']);
 
       isValid = sut.validate({
         ...productionDataBuilder({}),
         teams: 1 as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['teams']).toStrictEqual([
-        'teams should not be empty',
-        'teams must be an array',
-      ]);
+      expect(sut.errors['teams']).toStrictEqual(['teams must be an array']);
     });
 
     it('invalidation cases for towers field', () => {
-      let isValid = sut.validate(null as any);
-      expect(isValid).toBeFalsy();
-      expect(sut.errors['towers']).toStrictEqual([
-        'towers should not be empty',
-        'towers must be an array',
-      ]);
-
-      isValid = sut.validate({
+      let isValid = sut.validate({
         ...productionDataBuilder({}),
         towers: '' as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['towers']).toStrictEqual([
-        'towers should not be empty',
-        'towers must be an array',
-      ]);
+      expect(sut.errors['towers']).toStrictEqual(['towers must be an array']);
 
       isValid = sut.validate({
         ...productionDataBuilder({}),
         towers: 1 as any,
       });
       expect(isValid).toBeFalsy();
-      expect(sut.errors['towers']).toStrictEqual([
-        'towers should not be empty',
-        'towers must be an array',
-      ]);
+      expect(sut.errors['towers']).toStrictEqual(['towers must be an array']);
     });
 
     it('invalidation cases for taskId field', () => {

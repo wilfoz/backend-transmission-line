@@ -9,6 +9,7 @@ import {
 } from '../../../../domain/entities/production.entity';
 import { ProductionPrismaRepository } from '../production-prisma.repository';
 import { productionDataBuilder } from '../../../../domain/helpers/production-data-builder';
+import { ProductionRepository } from '../../../../domain/repositories/production.repository';
 
 describe('ProductionPrismaRepository Integration tests', () => {
   const prismaService = new PrismaClient();
@@ -27,6 +28,9 @@ describe('ProductionPrismaRepository Integration tests', () => {
   beforeEach(async () => {
     await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
+    await prismaService.tower.deleteMany();
+    await prismaService.team.deleteMany();
+
     sut = new ProductionPrismaRepository(prismaService as any);
     props = productionDataBuilder({ teams: [], towers: [] });
     task = await prismaService.task.create({
@@ -50,7 +54,8 @@ describe('ProductionPrismaRepository Integration tests', () => {
   it('should finds a production by id', async () => {
     const entity = new ProductionEntity(props);
     const data = entity.toJSON();
-    const team = await prismaService.production.create({
+
+    const production = await prismaService.production.create({
       data: {
         id: data.id,
         status: data.status as STATUS_PRODUCTION,
@@ -61,168 +66,83 @@ describe('ProductionPrismaRepository Integration tests', () => {
         createdAt: data.createdAt,
       },
     });
-    const output = await sut.findById(team.id);
+    const output = await sut.findById(production.id);
     expect(output.toJSON()).toStrictEqual(entity.toJSON());
   });
 
-  // it('should insert a new team', async () => {
-  //   const entity = new TeamEntity(props);
-  //   await sut.insert(entity);
-  //   const result = await prismaService.team.findUnique({
-  //     where: {
-  //       id: entity._id,
-  //     },
-  //     include: {
-  //       employees: true,
-  //       equipments: true,
-  //     },
-  //   });
-  //   expect(result).toStrictEqual(entity.toJSON());
-  // });
+  it('should insert a new production', async () => {
+    const entity = new ProductionEntity(props);
+    await sut.insert(entity);
+    const output = await prismaService.production.findUnique({
+      where: {
+        id: entity._id,
+      },
+    });
+    const result = { ...output, teams: props.teams, towers: props.towers };
+    expect(result).toStrictEqual(entity.toJSON());
+  });
 
-  // it('should returns all teams', async () => {
-  //   const entity = new TeamEntity(props);
-  //   await sut.insert(entity);
-  //   const entities = await sut.findAll();
-  //   expect(entities).toHaveLength(1);
-  //   entities.map(item => {
-  //     expect(item.toJSON()).toStrictEqual(entity.toJSON());
-  //   });
-  // });
+  it('should returns all productions', async () => {
+    const entity = new ProductionEntity(props);
+    await sut.insert(entity);
+    const entities = await sut.findAll();
+    expect(entities).toHaveLength(1);
+    entities.map(item => {
+      expect(item.toJSON()).toStrictEqual(entity.toJSON());
+    });
+  });
 
-  // it('should throws error on update when a team not found', async () => {
-  //   const entity = new TeamEntity(props);
-  //   await expect(() => sut.update(entity)).rejects.toThrow(
-  //     new NotFoundError(`TeamModel not found ID ${entity._id}`),
-  //   );
-  // });
+  it('should throws error on update when a production not found', async () => {
+    const entity = new ProductionEntity(props);
+    await expect(() => sut.update(entity)).rejects.toThrow(
+      new NotFoundError(`ProductionModel not found ID ${entity._id}`),
+    );
+  });
 
-  // it('should update a team', async () => {
-  //   const entity = new TeamEntity(props);
-  //   const entityJsonData = entity.toJSON();
-  //   const team = await prismaService.team.create({
-  //     data: {
-  //       id: entityJsonData.id,
-  //       name: entityJsonData.name,
-  //       createdAt: entityJsonData.createdAt,
-  //     },
-  //   });
-  //   entity.update('Acesso');
-  //   await sut.update(entity);
-  //   const output = await sut.findById(team.id);
-  //   expect(output.name).toBe('Acesso');
-  // });
+  it('should update a production', async () => {
+    const entity = new ProductionEntity(props);
+    await sut.insert(entity);
 
-  // it('should throws error on delete when a team not found', async () => {
-  //   const entity = new TeamEntity(teamDataBuilder({}));
-  //   await expect(() => sut.delete(entity._id)).rejects.toThrow(
-  //     new NotFoundError(`TeamModel not found ID ${entity._id}`),
-  //   );
-  // });
+    entity.update({
+      ...props,
+      comments: 'new comment',
+    });
 
-  // it('should delete a team', async () => {
-  //   const entity = new TeamEntity(teamDataBuilder({}));
-  //   const { id, name, createdAt } = entity.toJSON();
-  //   await prismaService.team.create({
-  //     data: {
-  //       id,
-  //       name,
-  //       createdAt,
-  //     },
-  //   });
-  //   await sut.delete(entity._id);
-  //   const output = await sut.findAll();
-  //   expect(output.length).toBe(0);
-  // });
+    await sut.update(entity);
+    const output = await sut.findById(entity.id);
+    expect(output.comments).toBe('new comment');
+  });
 
-  // describe('search method tests', () => {
-  //   it('should apply only pagination when the other params are null', async () => {
-  //     const createdAt = new Date();
-  //     const entities: TeamEntity[] = [];
-  //     const arrange = Array(16).fill(props);
-  //     arrange.forEach((element, index) => {
-  //       entities.push(
-  //         new TeamEntity({
-  //           ...element,
-  //           name: `name${index}-employee`,
-  //           createdAt: new Date(createdAt.getTime() + index),
-  //         }),
-  //       );
-  //     });
+  it('should throws error on delete when a production not found', async () => {
+    const entity = new ProductionEntity(props);
+    await expect(() => sut.delete(entity._id)).rejects.toThrow(
+      new NotFoundError(`ProductionModel not found ID ${entity._id}`),
+    );
+  });
 
-  //     await prismaService.team.createMany({
-  //       data: entities.map(item => ({
-  //         id: item.id,
-  //         name: item.name,
-  //         createdAt: item.createdAt,
-  //       })),
-  //     });
+  it('should delete a team', async () => {
+    const entity = new ProductionEntity(props);
+    await sut.insert(entity);
+    await sut.delete(entity._id);
+    const output = await sut.findAll();
+    expect(output.length).toBe(0);
+  });
 
-  //     const searchOutput = await sut.search(new TeamRepository.SearchParams());
-  //     const items = searchOutput.items;
-  //     expect(searchOutput).toBeInstanceOf(TeamRepository.SearchResult);
-  //     expect(searchOutput.total).toBe(16);
-  //     expect(searchOutput.items.length).toBe(15);
-  //     searchOutput.items.forEach(item => {
-  //       expect(item).toBeInstanceOf(TeamEntity);
-  //     });
-  //     items.reverse().forEach((item, index) => {
-  //       expect(`name${index + 1}-employee`).toBe(item.name);
-  //     });
-  //   });
+  describe('search method tests', () => {
+    it('should apply only pagination when the other params are null', async () => {
+      const entity = new ProductionEntity(props);
+      await sut.insert(entity);
 
-  //   it('should search using filter sort and paginate', async () => {
-  //     const createdAt = new Date();
-  //     const entities: TeamEntity[] = [];
-  //     const arrange = ['test', 'a', 'TEST', 'b', 'TeSt'];
-  //     arrange.forEach((element, index) => {
-  //       entities.push(
-  //         new TeamEntity({
-  //           ...teamDataBuilder({ name: element }),
-  //           createdAt: new Date(createdAt.getTime() + index),
-  //         }),
-  //       );
-  //     });
+      const searchOutput = await sut.search(
+        new ProductionRepository.SearchParams(),
+      );
 
-  //     await prismaService.team.createMany({
-  //       data: entities.map(item => ({
-  //         id: item.id,
-  //         name: item.name,
-  //         createdAt: item.createdAt,
-  //       })),
-  //     });
-
-  //     const searchOutputPage1 = await sut.search(
-  //       new TeamRepository.SearchParams({
-  //         page: 1,
-  //         perPage: 2,
-  //         sort: 'name',
-  //         sortDir: 'asc',
-  //         filter: 'TEST',
-  //       }),
-  //     );
-
-  //     expect(searchOutputPage1.items[0].toJSON()).toMatchObject(
-  //       entities[0].toJSON(),
-  //     );
-
-  //     expect(searchOutputPage1.items[1].toJSON()).toMatchObject(
-  //       entities[4].toJSON(),
-  //     );
-
-  //     const searchOutputPage2 = await sut.search(
-  //       new TeamRepository.SearchParams({
-  //         page: 2,
-  //         perPage: 2,
-  //         sort: 'name',
-  //         sortDir: 'asc',
-  //         filter: 'TEST',
-  //       }),
-  //     );
-
-  //     expect(searchOutputPage2.items[0].toJSON()).toMatchObject(
-  //       entities[2].toJSON(),
-  //     );
-  //   });
-  // });
+      expect(searchOutput).toBeInstanceOf(ProductionRepository.SearchResult);
+      expect(searchOutput.total).toBe(1);
+      expect(searchOutput.items.length).toBe(1);
+      searchOutput.items.forEach(item => {
+        expect(item).toBeInstanceOf(ProductionEntity);
+      });
+    });
+  });
 });

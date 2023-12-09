@@ -15,6 +15,7 @@ describe('TaskModelMapper Integration tests', () => {
   });
 
   beforeEach(async () => {
+    await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
     props = {
       id: '7839cf9b-cef5-4c33-b68a-f4cefde5fe94',

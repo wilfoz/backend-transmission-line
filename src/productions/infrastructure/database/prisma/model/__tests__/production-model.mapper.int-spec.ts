@@ -24,7 +24,9 @@ describe('ProductionModelMapper Integration tests', () => {
     await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
 
-    props = new ProductionEntity(productionDataBuilder({})).toJSON();
+    props = new ProductionEntity(
+      productionDataBuilder({ teams: [], towers: [] }),
+    ).toJSON();
     task = await prismaService.task.create({
       data: {
         id: props.taskId,
@@ -55,7 +57,6 @@ describe('ProductionModelMapper Integration tests', () => {
 
   it('should convert a production model to a production entity', async () => {
     const taskId = task.id;
-    console.log(task);
     const model: Required<
       {
         teams: Team[];
@@ -76,6 +77,8 @@ describe('ProductionModelMapper Integration tests', () => {
         towers: true,
       },
     });
+
+    console.log(model);
 
     const sut = ProductionModelMapper.toEntity(model);
     expect(sut).toBeInstanceOf(ProductionEntity);

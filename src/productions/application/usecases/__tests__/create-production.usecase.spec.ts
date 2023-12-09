@@ -4,6 +4,7 @@ import { ProductionInMemoryRepository } from '../../../infrastructure/database/i
 import {
   ProductionEntity,
   ProductionProps,
+  STATUS_PRODUCTION,
 } from '../../../domain/entities/production.entity';
 import { productionDataBuilder } from '../../../domain/helpers/production-data-builder';
 
@@ -36,7 +37,12 @@ describe('CreateProductionUseCase Unit Tests', () => {
       jest.spyOn(repository, 'insert').mockRejectedValue(expectedError);
       const spyHandleError = jest.spyOn(sut, 'handleError' as any);
 
-      await expect(sut.execute(props)).rejects.toThrowError(expectedError);
+      await expect(
+        sut.execute({
+          ...props,
+          status: props.status as STATUS_PRODUCTION,
+        }),
+      ).rejects.toThrowError(expectedError);
       expect(spyHandleError).toHaveBeenLastCalledWith(expectedError);
     });
 
@@ -48,7 +54,12 @@ describe('CreateProductionUseCase Unit Tests', () => {
         throw expectedError;
       });
       const spyHandleError = jest.spyOn(sut, 'handleError' as any);
-      await expect(sut.execute(props)).rejects.toThrowError(expectedError);
+      await expect(
+        sut.execute({
+          ...props,
+          status: props.status as STATUS_PRODUCTION,
+        }),
+      ).rejects.toThrowError(expectedError);
       expect(spyHandleError).toHaveBeenLastCalledWith(expectedError);
     });
 

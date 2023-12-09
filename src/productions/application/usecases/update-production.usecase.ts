@@ -13,8 +13,8 @@ export namespace UpdateProductionUseCase {
     comments: string;
     startTime?: Date;
     finalTime?: Date;
-    teams: string[];
-    towers: string[];
+    teams?: string[];
+    towers?: string[];
     taskId: string;
   };
 

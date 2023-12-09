@@ -1,6 +1,4 @@
 import {
-  ArrayMaxSize,
-  ArrayNotEmpty,
   IsArray,
   IsDate,
   IsIn,
@@ -34,12 +32,12 @@ export class ProductionRules {
   finalTime?: Date;
 
   @IsArray()
-  @ArrayNotEmpty()
-  teams: string[];
+  @IsOptional()
+  teams?: string[];
 
   @IsArray()
-  @ArrayNotEmpty()
-  towers: string[];
+  @IsOptional()
+  towers?: string[];
 
   @IsString()
   @IsNotEmpty()

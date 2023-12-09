@@ -10,8 +10,8 @@ export class ProductionPresenter {
   comments: string;
   startTime?: Date;
   finalTime?: Date;
-  teams: string[];
-  towers: string[];
+  teams?: string[];
+  towers?: string[];
   taskId: string;
 
   @Transform(({ value }: { value: Date }) => value.toISOString())

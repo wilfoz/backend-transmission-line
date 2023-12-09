@@ -10,8 +10,8 @@ export type ProductionProps = {
   comments: string;
   startTime?: Date;
   finalTime?: Date;
-  teams: string[];
-  towers: string[];
+  teams?: string[];
+  towers?: string[];
   taskId: string;
   createdAt?: Date;
 };
@@ -28,6 +28,8 @@ export class ProductionEntity extends AggregateRoot<
     this.props.startTime = this.props.startTime ?? this.setStartTimeDefault();
     this.props.finalTime = this.props.finalTime ?? this.setFinalTimeDefault();
     this.props.createdAt = this.props.createdAt ?? new Date();
+    this.props.teams = this.props.teams ?? [];
+    this.props.towers = this.props.towers ?? [];
   }
 
   get status() {
