@@ -2,7 +2,7 @@ import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { DeleteEquipmentUseCase } from '../delete-equipment.usecase';
 import { EquipmentInMemoryRepository } from '@/equipments/infrastructure/database/in-memory/equipment-in-memory.repository';
 import { EquipmentEntity } from '@/equipments/domain/entities/equipments.entity';
-import { equipmentDataBuilder } from '@/equipments/domain/helpers/Equipment-data-builder';
+import { equipmentDataBuilder } from '@/equipments/domain/helpers/equipment-data-builder';
 
 describe('DeleteEquipmentUseCase Unit Tests', () => {
   let sut: DeleteEquipmentUseCase.UseCase;

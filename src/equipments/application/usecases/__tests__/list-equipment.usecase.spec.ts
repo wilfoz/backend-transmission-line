@@ -2,7 +2,7 @@ import { EquipmentInMemoryRepository } from '@/equipments/infrastructure/databas
 import { ListEquipmentsUseCase } from '../list-equipment.usecase';
 import { EquipmentRepository } from '@/equipments/domain/repositories/equipment.repository';
 import { EquipmentEntity } from '@/equipments/domain/entities/equipments.entity';
-import { equipmentDataBuilder } from '@/equipments/domain/helpers/Equipment-data-builder';
+import { equipmentDataBuilder } from '@/equipments/domain/helpers/equipment-data-builder';
 
 describe('ListEquipmentsUseCase Unit Tests', () => {
   let sut: ListEquipmentsUseCase.UseCase;

@@ -1,4 +1,4 @@
-import { equipmentDataBuilder } from '../../helpers/Equipment-data-builder';
+import { equipmentDataBuilder } from '../../helpers/equipment-data-builder';
 import { EquipmentEntity, EquipmentProps } from '../equipments.entity';
 describe('EquipmentEntity Unit Tests', () => {
   let props: EquipmentProps;

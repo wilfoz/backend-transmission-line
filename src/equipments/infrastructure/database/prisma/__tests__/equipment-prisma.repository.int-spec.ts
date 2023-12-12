@@ -8,7 +8,7 @@ import {
   EquipmentProps,
 } from '@/equipments/domain/entities/equipments.entity';
 import { EquipmentPrismaRepository } from '../equipment-prisma.repository';
-import { equipmentDataBuilder } from '@/equipments/domain/helpers/Equipment-data-builder';
+import { equipmentDataBuilder } from '@/equipments/domain/helpers/equipment-data-builder';
 import { EquipmentRepository } from '@/equipments/domain/repositories/equipment.repository';
 
 describe('EquipmentPrismaRepository Integration tests', () => {
