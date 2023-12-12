@@ -1,5 +1,5 @@
 ### Variables
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWIxMDg0LWY3NjgtNDFmNS05OGU1LWM3MGE2MTAxNjkwOSIsImlhdCI6MTcwMDA3MTQzNiwiZXhwIjoxNzAwMTU3ODM2fQ.gchtoTPWHI_JtcFCaHhTBdl6JGycDFp0LD0wEeLvN8U
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIwYWFkZjY5LTExYjctNDVlZS1hMDJjLWU5ZDIxMTgwNzhjOSIsImlhdCI6MTcwMjE0ODg2OCwiZXhwIjoxNzAyMjM1MjY4fQ.2JfJvIcTaXcSWNVlXdtfV6nof7vf3G2HqVLNl0wbk9c
 @uuid=34d1a403-051d-4078-a92f-7e0c37cde6cc
 @uuid_task=2aff0e3c-37ec-43f0-8dbe-7b2f8c7c0054
 @uuid_employee=1704a043-3773-4332-b8b5-0c389733e908
@@ -22,7 +22,7 @@ POST  http://localhost:3000/users/login
 content-type: application/json
 
 {
-    "email": "d@d.com",
+    "email": "admin@d.com",
     "password": "12345"
 }
 ### CREATE
@@ -31,8 +31,8 @@ POST http://localhost:3000/users
 content-type: application/json
 
 {
-    "name": "test3",
-    "email": "d@d.com",
+    "name": "admin",
+    "email": "admin@d.com",
     "password": "12345"
 }
 
@@ -207,3 +207,25 @@ content-type: application/json
   "employees": [],
   "equipments": []
 }
+
+### PRODUCTION
+
+### CREATE
+POST http://localhost:3000/production
+content-type: application/json
+
+{
+  "status": "EXECUTED",
+  "comments": "comentarios...",
+  "teams": [],
+  "towers": [],
+  "taskId": "936a2ddb-e253-43fb-9b0d-57f60f85fa9a"
+}
+
+### GET
+GET http://localhost:3000/team/{{uuid_team}}
+Content-Type: application/json
+
+### SEARCH
+GET http://localhost:3000/team?page=1&perPage=5
+Content-Type: application/json

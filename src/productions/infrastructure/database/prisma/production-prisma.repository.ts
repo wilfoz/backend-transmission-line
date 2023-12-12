@@ -135,14 +135,47 @@ export class ProductionPrismaRepository
   }
 
   async update(entity: ProductionEntity): Promise<void> {
-    await this._get(entity._id);
-    await this.prismaService.production.update({
-      data: {
-        status: entity.status as STATUS_PRODUCTION,
-        comments: entity.comments,
-        startTime: entity.startTime,
-        finalTime: entity.finalTime,
+    const res = await this._get(entity._id);
+    const { teams, towers, taskId, ...others } = entity.toJSON();
+    const task = await this.prismaService.task.findUnique({
+      where: {
+        id: taskId,
       },
+    });
+
+    if (!task) {
+      throw new Error('Task not found');
+    }
+
+    const teamsData = await Promise.all(
+      teams.map(teamId => {
+        return this.prismaService.team.findUnique({
+          where: {
+            id: teamId,
+          },
+        });
+      }),
+    );
+
+    const towersData = await Promise.all(
+      towers.map(towerId => {
+        return this.prismaService.tower.findUnique({
+          where: {
+            id: towerId,
+          },
+        });
+      }),
+    );
+
+    const productionInput = {
+      ...others,
+      status: others.status as STATUS_PRODUCTION,
+      task: { connect: { id: task.id } },
+      teams: { connect: teamsData.map(team => ({ id: team.id })) },
+      towers: { connect: towersData.map(tower => ({ id: tower.id })) },
+    };
+    await this.prismaService.production.update({
+      data: productionInput,
       where: {
         id: entity._id,
       },

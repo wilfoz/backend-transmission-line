@@ -78,8 +78,6 @@ describe('ProductionModelMapper Integration tests', () => {
       },
     });
 
-    console.log(model);
-
     const sut = ProductionModelMapper.toEntity(model);
     expect(sut).toBeInstanceOf(ProductionEntity);
     expect(sut.toJSON()).toStrictEqual(props);

@@ -28,8 +28,6 @@ describe('ProductionPrismaRepository Integration tests', () => {
   beforeEach(async () => {
     await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
-    await prismaService.tower.deleteMany();
-    await prismaService.team.deleteMany();
 
     sut = new ProductionPrismaRepository(prismaService as any);
     props = productionDataBuilder({ teams: [], towers: [] });

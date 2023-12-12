@@ -29,64 +29,64 @@ import { RemoveTowerToProductionUseCase } from '../application/usecases/remove-t
     },
     {
       provide: CreateProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new CreateProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new CreateProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: GetProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new GetProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new GetProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: UpdateProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new UpdateProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new UpdateProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: ListProductionsUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new ListProductionsUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new ListProductionsUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: DeleteProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new DeleteProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new DeleteProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: AddTeamToProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new AddTeamToProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new AddTeamToProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: RemoveTeamToProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new RemoveTeamToProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new RemoveTeamToProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: AddTowerToProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new AddTowerToProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new AddTowerToProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },
     {
       provide: RemoveTowerToProductionUseCase.UseCase,
-      useFactory: (ProductionRepository: ProductionRepository.Repository) => {
-        return new RemoveTowerToProductionUseCase.UseCase(ProductionRepository);
+      useFactory: (productionRepository: ProductionRepository.Repository) => {
+        return new RemoveTowerToProductionUseCase.UseCase(productionRepository);
       },
       inject: ['ProductionRepository'],
     },

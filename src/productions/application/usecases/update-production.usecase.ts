@@ -9,7 +9,7 @@ import { STATUS_PRODUCTION } from '../../domain/entities/production.entity';
 export namespace UpdateProductionUseCase {
   export type Input = {
     id: string;
-    status: STATUS_PRODUCTION | string;
+    status: STATUS_PRODUCTION;
     comments: string;
     startTime?: Date;
     finalTime?: Date;
@@ -26,7 +26,6 @@ export namespace UpdateProductionUseCase {
     async execute(input: Input): Promise<Output> {
       const entity = await this.repository.findById(input.id);
       entity.update(input);
-
       this.repository.update(entity);
       return ProductionOutputMapper.toOutput(entity);
     }

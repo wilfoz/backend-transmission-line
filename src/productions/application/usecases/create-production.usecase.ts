@@ -19,7 +19,6 @@ export namespace CreateProductionUseCase {
     teams?: string[];
     towers?: string[];
     taskId: string;
-    createdAt?: Date;
   };
 
   export type Output = ProductionOutput;

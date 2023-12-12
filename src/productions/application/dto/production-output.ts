@@ -5,7 +5,7 @@ import {
 
 export type ProductionOutput = {
   id: string;
-  status: STATUS_PRODUCTION | string;
+  status: STATUS_PRODUCTION;
   comments: string;
   startTime?: Date;
   finalTime?: Date;

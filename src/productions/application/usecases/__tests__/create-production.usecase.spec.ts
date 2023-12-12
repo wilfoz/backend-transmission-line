@@ -68,6 +68,8 @@ describe('CreateProductionUseCase Unit Tests', () => {
       const output = await sut.execute({
         status: 'EXECUTED',
         comments: 'commentaries',
+        startTime: new Date(),
+        finalTime: new Date(),
         teams: ['6fea73d8-6fb7-4186-8398-b630d9a89191'],
         towers: ['36fd938a-b888-4782-9b58-7f6c09f69664'],
         taskId: '3ba89136-293d-4522-810b-1166530db2c6',

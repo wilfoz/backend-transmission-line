@@ -3,6 +3,7 @@ import { PaginationPresenter } from '@/shared/infrastructure/presenters/paginati
 import {
   ProductionCollectionPresenter,
   ProductionPresenter,
+  STATUS_PRODUCTION,
 } from '../production.presenter';
 
 describe('ProductionPresenter', () => {
@@ -10,7 +11,7 @@ describe('ProductionPresenter', () => {
   const createdAt = new Date();
   const props = {
     id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
-    status: 'EXECUTED',
+    status: 'EXECUTED' as STATUS_PRODUCTION,
     comments: 'SN',
     startTime: new Date(createdAt.setHours(7)),
     finalTime: new Date(createdAt.setHours(17)),
@@ -42,6 +43,8 @@ describe('ProductionPresenter', () => {
     const output = instanceToPlain(sut);
     expect(output).toStrictEqual({
       ...props,
+      startTime: props.startTime.toISOString(),
+      finalTime: props.finalTime.toISOString(),
       createdAt: createdAt.toISOString(),
     });
   });
@@ -52,7 +55,7 @@ describe('ProductionCollectionPresenter', () => {
   const createdAt = new Date();
   const props = {
     id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
-    status: 'EXECUTED',
+    status: 'EXECUTED' as STATUS_PRODUCTION,
     comments: 'SN',
     startTime: new Date(createdAt.setHours(7)),
     finalTime: new Date(createdAt.setHours(17)),
@@ -100,8 +103,8 @@ describe('ProductionCollectionPresenter', () => {
           id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
           status: 'EXECUTED',
           comments: 'SN',
-          startTime: new Date(createdAt.setHours(7)),
-          finalTime: new Date(createdAt.setHours(17)),
+          startTime: new Date(createdAt.setHours(7)).toISOString(),
+          finalTime: new Date(createdAt.setHours(17)).toISOString(),
           teams: ['2bdfebd2-e47b-4134-bb3d-6fe8fdbbc9a4'],
           towers: ['2bdfebd2-e47b-4134-bb3d-6fe8fdbbc9a4'],
           taskId: '96010fff-fc27-406c-bba0-44182c7b67a0',
@@ -130,8 +133,8 @@ describe('ProductionCollectionPresenter', () => {
           id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
           status: 'EXECUTED',
           comments: 'SN',
-          startTime: new Date(createdAt.setHours(7)),
-          finalTime: new Date(createdAt.setHours(17)),
+          startTime: new Date(createdAt.setHours(7)).toISOString(),
+          finalTime: new Date(createdAt.setHours(17)).toISOString(),
           teams: ['2bdfebd2-e47b-4134-bb3d-6fe8fdbbc9a4'],
           towers: ['2bdfebd2-e47b-4134-bb3d-6fe8fdbbc9a4'],
           taskId: '96010fff-fc27-406c-bba0-44182c7b67a0',
