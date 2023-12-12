@@ -2,8 +2,10 @@ import { PrismaService } from '@/shared/infrastructure/database/prisma/prisma.se
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { ProductionRepository } from '../../../domain/repositories/production.repository';
 import { ProductionModelMapper } from './model/production-model.mapper';
-import { ProductionEntity } from '../../../domain/entities/production.entity';
-import { STATUS_PRODUCTION } from '@prisma/client';
+import {
+  ProductionEntity,
+  STATUS_PRODUCTION,
+} from '../../../domain/entities/production.entity';
 
 export class ProductionPrismaRepository
   implements ProductionRepository.Repository {

@@ -1,4 +1,3 @@
-import { STATUS_PRODUCTION } from '@prisma/client';
 import {
   IsArray,
   IsDate,
@@ -6,6 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { STATUS_PRODUCTION } from '../../domain/entities/production.entity';
 
 export class UpdateResourceProductionDto {
   @IsString()
