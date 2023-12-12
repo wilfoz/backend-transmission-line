@@ -8,8 +8,13 @@ export class ProductionPresenter {
   id: string;
   status: STATUS_PRODUCTION | string;
   comments: string;
+  
+  @Transform(({ value }: { value: Date }) => value.toISOString())
   startTime?: Date;
+
+  @Transform(({ value }: { value: Date }) => value.toISOString())
   finalTime?: Date;
+
   teams?: string[];
   towers?: string[];
   taskId: string;

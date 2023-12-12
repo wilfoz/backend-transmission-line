@@ -10,6 +10,7 @@ import {
   HttpCode,
   Query,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { SignInUseCase } from '../application/usecases/signin.usecase';
 import { SignupUseCase } from '../application/usecases/signup.usecase';
@@ -30,7 +31,8 @@ import {
   UserPresenter,
 } from './presenters/user.presenter';
 import { AuthService } from '@/auth/infrastructure/auth.service';
-import { ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth/infrastructure/auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -115,6 +117,7 @@ export class UsersController {
     return this.authService.generateJwt(output.id);
   }
 
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     schema: {
@@ -154,12 +157,14 @@ export class UsersController {
     status: 401,
     description: 'Acesso não autorizado',
   })
+  @UseGuards(AuthGuard)
   @Get()
   async search(@Query() searchParams: ListUsersDto) {
     const output = await this.listUsersUseCase.execute(searchParams);
     return UsersController.listUsersToResponse(output);
   }
 
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'Success',
@@ -172,12 +177,14 @@ export class UsersController {
     status: 401,
     description: 'Acesso não autorizado',
   })
+  @UseGuards(AuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const output = await this.getUserUseCase.execute({ id });
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'Success',
@@ -194,6 +201,7 @@ export class UsersController {
     status: 401,
     description: 'Acesso não autorizado',
   })
+  @UseGuards(AuthGuard)
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const output = await this.updateUserUseCase.execute({
@@ -203,6 +211,7 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'Success',
@@ -219,6 +228,7 @@ export class UsersController {
     status: 401,
     description: 'Acesso não autorizado',
   })
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async updatePassword(
     @Param('id') id: string,
@@ -231,6 +241,7 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
   @ApiResponse({
     status: 204,
     description: 'Resposta de confirmação da exclusão',
@@ -243,6 +254,7 @@ export class UsersController {
     status: 401,
     description: 'Acesso não autorizado',
   })
+  @UseGuards(AuthGuard)
   @HttpCode(204)
   @Delete(':id')
   async remove(@Param('id') id: string) {

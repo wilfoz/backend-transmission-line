@@ -1,4 +1,4 @@
-import { PrismaClient, STATUS_PRODUCTION } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Test, TestingModule } from '@nestjs/testing';
 import { setupPrismaTests } from '@/shared/infrastructure/database/prisma/testing/setup-prisma-tests';
 import { DatabaseModule } from '@/shared/infrastructure/database/database.module';
@@ -6,6 +6,7 @@ import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import {
   ProductionEntity,
   ProductionProps,
+  STATUS_PRODUCTION,
 } from '../../../../domain/entities/production.entity';
 import { ProductionPrismaRepository } from '../production-prisma.repository';
 import { productionDataBuilder } from '../../../../domain/helpers/production-data-builder';
@@ -28,8 +29,6 @@ describe('ProductionPrismaRepository Integration tests', () => {
   beforeEach(async () => {
     await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
-    await prismaService.tower.deleteMany();
-    await prismaService.team.deleteMany();
 
     sut = new ProductionPrismaRepository(prismaService as any);
     props = productionDataBuilder({ teams: [], towers: [] });

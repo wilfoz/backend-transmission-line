@@ -12,6 +12,8 @@ import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from '@/global-config';
 import { UserEntity } from '@/users/domain/entities/user.entity';
 import { userDataBuilder } from '@/users/domain/testing/helpers/user-data-builder';
+import { HashProvider } from '../../../../shared/application/providers/hash-provider';
+import { BcryptjsHashProvider } from '../../providers/hash-provider/bcryptjs-hash-provider';
 
 describe('UsersController E2E Tests', () => {
   let app: INestApplication;
@@ -19,6 +21,9 @@ describe('UsersController E2E Tests', () => {
   let repository: UserRepository.Repository;
   const prismaService = new PrismaClient();
   let entity: UserEntity;
+  let hashProvider: HashProvider;
+  let hashPassword: string;
+  let accessToken: string;
 
   beforeAll(async () => {
     setupPrismaTests();
@@ -33,10 +38,25 @@ describe('UsersController E2E Tests', () => {
     applyGlobalConfig(app);
     await app.init();
     repository = module.get<UserRepository.Repository>('UserRepository');
+    hashProvider = new BcryptjsHashProvider();
+    hashPassword = await hashProvider.generateHash('1234');
   });
 
   beforeEach(async () => {
     await prismaService.user.deleteMany();
+    entity = new UserEntity(
+      userDataBuilder({
+        email: 'a@a.com',
+        password: hashPassword,
+      }),
+    );
+    await repository.insert(entity);
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/users/login')
+      .send({ email: 'a@a.com', password: '1234' })
+      .expect(200);
+    accessToken = loginResponse.body.accessToken;
   });
 
   describe('GET/users', () => {
@@ -53,6 +73,7 @@ describe('UsersController E2E Tests', () => {
           }),
         );
       });
+      await prismaService.user.deleteMany();
       await prismaService.user.createMany({
         data: entities.map(item => item.toJSON()),
       });
@@ -60,6 +81,7 @@ describe('UsersController E2E Tests', () => {
       const queryParams = new URLSearchParams(searchParams as any).toString();
       const res = await request(app.getHttpServer())
         .get(`/users/?${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(200);
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
       expect(res.body).toStrictEqual({
@@ -100,6 +122,7 @@ describe('UsersController E2E Tests', () => {
       const queryParams = new URLSearchParams(searchParams as any).toString();
       const res = await request(app.getHttpServer())
         .get(`/users/?${queryParams}`)
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(200);
       expect(Object.keys(res.body)).toStrictEqual(['data', 'meta']);
     });
@@ -107,6 +130,7 @@ describe('UsersController E2E Tests', () => {
     it('should return error with 422 code when the query params is invalid', async () => {
       const res = await request(app.getHttpServer())
         .get('/users/?fakeId=10')
+        .set('Authorization', `Bearer ${accessToken}`)
         .expect(422);
       expect(res.body.error).toBe('Unprocessable Entity');
       expect(res.body.message).toEqual(['property fakeId should not exist']);

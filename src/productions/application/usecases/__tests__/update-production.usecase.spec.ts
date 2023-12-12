@@ -1,7 +1,10 @@
 import { NotFoundError } from '@/shared/domain/errors/not-found-error';
 import { UpdateProductionUseCase } from '../update-production.usecase';
 import { ProductionInMemoryRepository } from '../../../infrastructure/database/in-memory/production-in-memory.repository';
-import { ProductionEntity } from '../../../domain/entities/production.entity';
+import {
+  ProductionEntity,
+  STATUS_PRODUCTION,
+} from '../../../domain/entities/production.entity';
 import { productionDataBuilder } from '../../../domain/helpers/production-data-builder';
 
 describe('UpdateProductionUseCase Unit Tests', () => {
@@ -29,7 +32,7 @@ describe('UpdateProductionUseCase Unit Tests', () => {
 
     const updated = {
       id: items[0].id,
-      status: 'PROGRAMMED',
+      status: 'PROGRAMMED' as STATUS_PRODUCTION,
       comments: 'some comments',
       startTime: dateTimeDefault,
       finalTime: dateTimeDefault,

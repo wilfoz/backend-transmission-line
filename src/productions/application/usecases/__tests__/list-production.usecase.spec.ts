@@ -78,43 +78,25 @@ describe('ListProductionsUseCase Unit Tests', () => {
 
   it('should return the production pagination, sorted and filter', async () => {
     const items = [
-      new ProductionEntity(productionDataBuilder({ comments: 'test' })),
-      new ProductionEntity(productionDataBuilder({ comments: 'TEST' })),
-      new ProductionEntity(productionDataBuilder({ comments: 'fake' })),
-      new ProductionEntity(productionDataBuilder({ comments: 'Test' })),
-      new ProductionEntity(productionDataBuilder({ comments: 'FAKE' })),
-      new ProductionEntity(productionDataBuilder({ comments: 'FaKe' })),
+      new ProductionEntity(productionDataBuilder({ status: 'EXECUTED' })),
+      new ProductionEntity(productionDataBuilder({ status: 'PROGRAMMED' })),
+      new ProductionEntity(productionDataBuilder({ status: 'PROGRESS' })),
     ];
 
     repository.items = items;
-    let output = await sut.execute({
+    const output = await sut.execute({
       page: 1,
       perPage: 2,
-      sort: 'comments',
+      sort: 'status',
       sortDir: 'asc',
-      filter: 'test',
+      filter: 'P',
     });
 
     expect(output).toStrictEqual({
-      items: [items[1].toJSON(), items[3].toJSON()],
-      total: 3,
+      items: [items[1].toJSON(), items[2].toJSON()],
+      total: 2,
       currentPage: 1,
-      lastPage: 2,
-      perPage: 2,
-    });
-
-    output = await sut.execute({
-      page: 2,
-      perPage: 2,
-      sort: 'comments',
-      sortDir: 'asc',
-      filter: 'test',
-    });
-    expect(output).toStrictEqual({
-      items: [items[0].toJSON()],
-      total: 3,
-      currentPage: 2,
-      lastPage: 2,
+      lastPage: 1,
       perPage: 2,
     });
   });

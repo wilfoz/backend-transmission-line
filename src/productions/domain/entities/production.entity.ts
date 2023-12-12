@@ -6,7 +6,7 @@ import { ProductionValidatorFactory } from '../validators/production.validator';
 export type STATUS_PRODUCTION = 'EXECUTED' | 'PROGRAMMED' | 'PROGRESS';
 
 export type ProductionProps = {
-  status: STATUS_PRODUCTION | string;
+  status: STATUS_PRODUCTION;
   comments: string;
   startTime?: Date;
   finalTime?: Date;
@@ -36,7 +36,7 @@ export class ProductionEntity extends AggregateRoot<
     return this.props.status;
   }
 
-  private set status(value: STATUS_PRODUCTION | string) {
+  private set status(value: STATUS_PRODUCTION) {
     this.props.status = value;
   }
 
@@ -92,16 +92,6 @@ export class ProductionEntity extends AggregateRoot<
     return this.props.createdAt;
   }
 
-  setStartTimeDefault(): Date {
-    const hour = new Date().setHours(7);
-    return new Date(hour);
-  }
-
-  setFinalTimeDefault(): Date {
-    const hour = new Date().setHours(17);
-    return new Date(hour);
-  }
-
   addTeam(id: string) {
     if (this.props.teams.includes(id)) {
       throw new ConflictError('Team already exists!');
@@ -136,11 +126,21 @@ export class ProductionEntity extends AggregateRoot<
     ProductionEntity.validate({ ...this.props });
     this.status = props.status;
     this.comments = props.comments;
-    this.startTime = props.startTime;
-    this.finalTime = props.finalTime;
-    this.teams = props.teams;
-    this.towers = props.towers;
+    this.startTime = props.startTime ?? this.setStartTimeDefault();
+    this.finalTime = props.finalTime ?? this.setFinalTimeDefault();
+    this.teams = props.teams ?? [];
+    this.towers = props.towers ?? [];
     this.taskId = props.taskId;
+  }
+
+  setStartTimeDefault(): Date {
+    const hour = new Date().setHours(7);
+    return new Date(hour);
+  }
+
+  setFinalTimeDefault(): Date {
+    const hour = new Date().setHours(17);
+    return new Date(hour);
   }
 
   static validate(props: ProductionProps) {

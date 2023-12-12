@@ -74,10 +74,6 @@ describe('EmployeeEntity Unit Tests', () => {
       expect(typeof sut.props.status).toBe('string');
     });
 
-    it('Getter of teamId fields', () => {
-      expect(sut.teamId).toBeUndefined();
-    });
-
     it('Getter of createdAt fields', () => {
       expect(sut.createdAt).toBeDefined();
       expect(sut.createdAt).toBeInstanceOf(Date);
