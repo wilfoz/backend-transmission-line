@@ -15,9 +15,9 @@ export class TeamEntity extends AggregateRoot<TeamProps, TeamPropsJson> {
   constructor(public readonly props: TeamProps, id?: string) {
     TeamEntity.validate(props);
     super(props, id);
-    this.props.createdAt = this.props.createdAt ?? new Date();
-    this.props.employees = this.props.employees ?? [];
-    this.props.equipments = this.props.equipments ?? [];
+    this.props.createdAt = props.createdAt ?? new Date();
+    this.props.employees = props.employees ?? [];
+    this.props.equipments = props.equipments ?? [];
   }
 
   get name() {

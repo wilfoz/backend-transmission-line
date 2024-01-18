@@ -32,11 +32,7 @@ describe('GetTowerUseCase Unit Tests', () => {
       coordinates: items[0].coordinates.value,
       height: items[0].height,
       weight: items[0].weight,
-      type_of_foundation_A: items[0].type_of_foundation_A,
-      type_of_foundation_B: items[0].type_of_foundation_B,
-      type_of_foundation_C: items[0].type_of_foundation_C,
-      type_of_foundation_D: items[0].type_of_foundation_D,
-      type_of_foundation_MC: items[0].type_of_foundation_MC,
+      foundations: items[0].foundations,
       embargo: items[0].embargo,
       createdAt: items[0].createdAt,
     });

@@ -1,4 +1,5 @@
 import {
+  IsArray,
   IsDate,
   IsInstance,
   IsNotEmpty,
@@ -44,27 +45,11 @@ export class TowerRules {
 
   @IsString()
   @IsOptional()
-  type_of_foundation_A?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_B?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_C?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_D?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_MC?: string;
-
-  @IsString()
-  @IsOptional()
   embargo?: string;
+
+  @IsArray()
+  @IsOptional()
+  foundations?: string[];
 
   @IsDate()
   @IsOptional()
@@ -78,11 +63,7 @@ export class TowerRules {
     distance,
     height,
     weight,
-    type_of_foundation_A,
-    type_of_foundation_B,
-    type_of_foundation_C,
-    type_of_foundation_D,
-    type_of_foundation_MC,
+    foundations,
     embargo,
     createdAt,
   }: TowerProps) {
@@ -94,11 +75,7 @@ export class TowerRules {
       distance,
       height,
       weight,
-      type_of_foundation_A,
-      type_of_foundation_B,
-      type_of_foundation_C,
-      type_of_foundation_D,
-      type_of_foundation_MC,
+      foundations,
       embargo,
       createdAt,
     });

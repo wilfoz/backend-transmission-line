@@ -28,11 +28,7 @@ describe('TowerController Unit Tests', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      type_of_foundation_A: 'T',
-      type_of_foundation_B: 'T',
-      type_of_foundation_C: 'T',
-      type_of_foundation_D: 'T',
-      type_of_foundation_MC: 'T',
+      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
       embargo: 'RELEASE',
       createdAt: new Date(),
     };
@@ -56,11 +52,7 @@ describe('TowerController Unit Tests', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      type_of_foundation_A: 'T',
-      type_of_foundation_B: 'T',
-      type_of_foundation_C: 'T',
-      type_of_foundation_D: 'T',
-      type_of_foundation_MC: 'T',
+      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
       embargo: 'RELEASE',
     };
     const presenter = await sut.create(input);
@@ -83,11 +75,7 @@ describe('TowerController Unit Tests', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      type_of_foundation_A: 'T',
-      type_of_foundation_B: 'T',
-      type_of_foundation_C: 'T',
-      type_of_foundation_D: 'T',
-      type_of_foundation_MC: 'T',
+      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
       embargo: 'RELEASE',
     };
     const presenter = await sut.update(id, input);

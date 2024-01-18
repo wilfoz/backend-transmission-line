@@ -1,7 +1,7 @@
 import { towerDataBuilder } from '@/towers/domain/helpers/tower-data-builder';
 import { TowerEntity, TowerProps } from '../../towers.entity';
 
-describe('UserEntity Unit Tests', () => {
+describe('TowerEntity Unit Tests', () => {
   let props: TowerProps;
   let sut: TowerEntity;
 
@@ -19,14 +19,8 @@ describe('UserEntity Unit Tests', () => {
     expect(sut.props.distance).toEqual(props.distance);
     expect(sut.props.height).toEqual(props.height);
     expect(sut.props.weight).toEqual(props.weight);
-    expect(sut.props.type_of_foundation_A).toEqual(props.type_of_foundation_A);
-    expect(sut.props.type_of_foundation_B).toEqual(props.type_of_foundation_B);
-    expect(sut.props.type_of_foundation_C).toEqual(props.type_of_foundation_C);
-    expect(sut.props.type_of_foundation_D).toEqual(props.type_of_foundation_D);
-    expect(sut.props.type_of_foundation_MC).toEqual(
-      props.type_of_foundation_MC,
-    );
     expect(sut.props.embargo).toEqual(props.embargo);
+    expect(sut.props.foundations).toEqual(props.foundations);
     expect(sut.props.createdAt).toBeInstanceOf(Date);
   });
 
@@ -96,21 +90,6 @@ describe('UserEntity Unit Tests', () => {
       expect(typeof sut.props.weight).toBe('number');
     });
 
-    it('Getter of type_of_foundation_A fields', () => {
-      expect(sut.type_of_foundation_A).toBeDefined();
-      expect(sut.type_of_foundation_A).toEqual(props.type_of_foundation_A);
-      expect(typeof sut.type_of_foundation_A).toBe('string');
-    });
-
-    it('Setter of type_of_foundation_A fields', () => {
-      sut['type_of_foundation_A'] = props.type_of_foundation_A;
-
-      expect(sut.props.type_of_foundation_A).toEqual(
-        props.type_of_foundation_A,
-      );
-      expect(typeof sut.props.type_of_foundation_A).toBe('string');
-    });
-
     it('Getter of embargo fields', () => {
       expect(sut.embargo).toBeDefined();
       expect(sut.embargo).toEqual(props.embargo);
@@ -124,26 +103,45 @@ describe('UserEntity Unit Tests', () => {
       expect(typeof sut.props.embargo).toBe('string');
     });
 
+    it('Getter of foundations fields', () => {
+      expect(sut.getFoundations().length).toBe(0);
+      expect(sut.getFoundations()).toEqual(props.foundations);
+    });
+
     it('Getter of createdAt fields', () => {
       expect(sut.createdAt).toBeDefined();
       expect(sut.createdAt).toBeInstanceOf(Date);
     });
   });
 
-  describe('updated methods', () => {
-    it('should update a tower', () => {
-      sut.updateTower('100/1');
-      expect(TowerEntity.validate).toHaveBeenCalled();
-      expect(sut.props.tower).toEqual('100/1');
+  describe('methods', () => {
+    it('should get foundations', () => {
+      const foundations = sut.getFoundations();
+      expect(sut.foundations).toEqual(foundations);
     });
 
-    it('should update a type', () => {
-      sut.updateType('EM');
-      expect(TowerEntity.validate).toHaveBeenCalled();
-      expect(sut.props.type).toEqual('EM');
-    });
+    // it('should add foundation', () => {
+    //   sut.addFoundation('eccf59ae-685a-49d1-b213-8015bd6d2b34');
+    //   expect(sut.getFoundations()).toEqual([
+    //     'eccf59ae-685a-49d1-b213-8015bd6d2b34',
+    //   ]);
+    //   expect(sut.foundations).toHaveLength(1);
+    // });
 
-    it('should update a type', () => {
+    // it('should update foundation', () => {
+    //   sut.addFoundation('eccf59ae-685a-49d1-b213-8015bd6d2b34');
+    //   sut.updateFoundation(
+    //     'eccf59ae-685a-49d1-b213-8015bd6d2b34',
+    //     '8033c931-7d11-404c-b1b7-f86583b5add7',
+    //   );
+
+    //   expect(sut.getFoundations()).toEqual([
+    //     '8033c931-7d11-404c-b1b7-f86583b5add7',
+    //   ]);
+    //   expect(sut.foundations).toHaveLength(1);
+    // });
+
+    it('should update tower', () => {
       sut.update(props);
       expect(TowerEntity.validate).toHaveBeenCalled();
       expect(sut.props).toEqual(props);

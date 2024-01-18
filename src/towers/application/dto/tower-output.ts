@@ -10,11 +10,7 @@ export type TowerOutput = {
   distance: number | null;
   height: number | null;
   weight: number | null;
-  type_of_foundation_A: string | null;
-  type_of_foundation_B: string | null;
-  type_of_foundation_C: string | null;
-  type_of_foundation_D: string | null;
-  type_of_foundation_MC: string | null;
+  foundations: string[] | null;
   embargo: Embargo | null;
   createdAt: Date;
 };

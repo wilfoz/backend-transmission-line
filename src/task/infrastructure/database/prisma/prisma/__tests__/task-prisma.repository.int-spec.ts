@@ -28,6 +28,7 @@ describe('TaskPrismaRepository Integration tests', () => {
   beforeEach(async () => {
     sut = new TaskPrismaRepository(prismaService as any);
     props = taskDataBuilder({});
+    await prismaService.production.deleteMany();
     await prismaService.task.deleteMany();
   });
 

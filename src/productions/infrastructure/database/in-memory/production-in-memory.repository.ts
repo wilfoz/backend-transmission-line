@@ -30,11 +30,11 @@ export class ProductionInMemoryRepository
       : super.applySort(items, sort, sortDir);
   }
 
-  async removeAndUpdateResource(team: ProductionEntity): Promise<void> {
-    this.update(team);
+  async removeAndUpdateResource(production: ProductionEntity): Promise<void> {
+    this.update(production);
   }
 
-  async includeAndUpdateResource(team: ProductionEntity): Promise<void> {
-    this.update(team);
+  async includeAndUpdateResource(production: ProductionEntity): Promise<void> {
+    this.update(production);
   }
 }

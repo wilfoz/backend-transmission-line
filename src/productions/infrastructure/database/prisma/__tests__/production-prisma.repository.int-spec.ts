@@ -64,6 +64,11 @@ describe('ProductionPrismaRepository Integration tests', () => {
         taskId: task.id,
         createdAt: data.createdAt,
       },
+      include: {
+        teams: true,
+        towers: true,
+        task: true,
+      },
     });
     const output = await sut.findById(production.id);
     expect(output.toJSON()).toStrictEqual(entity.toJSON());

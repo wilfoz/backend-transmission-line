@@ -16,11 +16,7 @@ describe('TowerPresenter', () => {
     distance: 200,
     height: 30,
     weight: 1000,
-    type_of_foundation_A: 'T',
-    type_of_foundation_B: 'T',
-    type_of_foundation_C: 'T',
-    type_of_foundation_D: 'T',
-    type_of_foundation_MC: 'T',
+    foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
     embargo: 'RELEASE' as Embargo,
     createdAt,
   };
@@ -39,11 +35,7 @@ describe('TowerPresenter', () => {
       expect(sut.distance).toEqual(props.distance);
       expect(sut.height).toEqual(props.height);
       expect(sut.weight).toEqual(props.weight);
-      expect(sut.type_of_foundation_A).toEqual(props.type_of_foundation_A);
-      expect(sut.type_of_foundation_B).toEqual(props.type_of_foundation_B);
-      expect(sut.type_of_foundation_C).toEqual(props.type_of_foundation_C);
-      expect(sut.type_of_foundation_D).toEqual(props.type_of_foundation_D);
-      expect(sut.type_of_foundation_MC).toEqual(props.type_of_foundation_MC);
+      expect(sut.foundations).toEqual(props.foundations);
       expect(sut.embargo).toEqual(props.embargo);
       expect(sut.createdAt).toEqual(props.createdAt);
     });
@@ -60,132 +52,116 @@ describe('TowerPresenter', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      type_of_foundation_A: 'T',
-      type_of_foundation_B: 'T',
-      type_of_foundation_C: 'T',
-      type_of_foundation_D: 'T',
-      type_of_foundation_MC: 'T',
+      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
       embargo: 'RELEASE',
       createdAt: createdAt.toISOString(),
     });
   });
-});
 
-describe('TowersCollectionPresenter', () => {
-  let sut: TowersCollectionPresenter;
-  const createdAt = new Date();
-  const props = {
-    id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
-    code: 1,
-    tower: '0/2',
-    type: 'AT',
-    coordinates: { latitude: '', longitude: '' },
-    distance: 200,
-    height: 30,
-    weight: 1000,
-    type_of_foundation_A: 'T',
-    type_of_foundation_B: 'T',
-    type_of_foundation_C: 'T',
-    type_of_foundation_D: 'T',
-    type_of_foundation_MC: 'T',
-    embargo: 'RELEASE',
-    createdAt,
-  } as TowerOutput;
+  describe('TowersCollectionPresenter', () => {
+    let sut: TowersCollectionPresenter;
+    const createdAt = new Date();
+    const props = {
+      id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
+      code: 1,
+      tower: '0/2',
+      type: 'AT',
+      coordinates: { latitude: '', longitude: '' },
+      distance: 200,
+      height: 30,
+      weight: 1000,
+      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+      embargo: 'RELEASE',
+      createdAt,
+    } as TowerOutput;
 
-  describe('Constructor', () => {
-    it('should set values', () => {
-      const sut = new TowersCollectionPresenter({
+    describe('Constructor', () => {
+      it('should set values', () => {
+        const sut = new TowersCollectionPresenter({
+          items: [props],
+          currentPage: 1,
+          perPage: 2,
+          lastPage: 1,
+          total: 1,
+        });
+
+        expect(sut.meta).toBeInstanceOf(PaginationPresenter);
+        expect(sut.meta).toStrictEqual(
+          new PaginationPresenter({
+            currentPage: 1,
+            perPage: 2,
+            lastPage: 1,
+            total: 1,
+          }),
+        );
+        expect(sut.data).toStrictEqual([new TowerPresenter(props)]);
+      });
+    });
+
+    it('should presenter data', () => {
+      let sut = new TowersCollectionPresenter({
         items: [props],
         currentPage: 1,
         perPage: 2,
         lastPage: 1,
         total: 1,
       });
-
-      expect(sut.meta).toBeInstanceOf(PaginationPresenter);
-      expect(sut.meta).toStrictEqual(
-        new PaginationPresenter({
+      let output = instanceToPlain(sut);
+      expect(output).toStrictEqual({
+        data: [
+          {
+            id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
+            code: 1,
+            tower: '0/2',
+            type: 'AT',
+            coordinates: { latitude: '', longitude: '' },
+            distance: 200,
+            height: 30,
+            weight: 1000,
+            foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+            embargo: 'RELEASE' as Embargo,
+            createdAt: createdAt.toISOString(),
+          },
+        ],
+        meta: {
           currentPage: 1,
           perPage: 2,
           lastPage: 1,
           total: 1,
-        }),
-      );
-      expect(sut.data).toStrictEqual([new TowerPresenter(props)]);
-    });
-  });
-
-  it('should presenter data', () => {
-    let sut = new TowersCollectionPresenter({
-      items: [props],
-      currentPage: 1,
-      perPage: 2,
-      lastPage: 1,
-      total: 1,
-    });
-    let output = instanceToPlain(sut);
-    expect(output).toStrictEqual({
-      data: [
-        {
-          id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
-          code: 1,
-          tower: '0/2',
-          type: 'AT',
-          coordinates: { latitude: '', longitude: '' },
-          distance: 200,
-          height: 30,
-          weight: 1000,
-          type_of_foundation_A: 'T',
-          type_of_foundation_B: 'T',
-          type_of_foundation_C: 'T',
-          type_of_foundation_D: 'T',
-          type_of_foundation_MC: 'T',
-          embargo: 'RELEASE' as Embargo,
-          createdAt: createdAt.toISOString(),
         },
-      ],
-      meta: {
-        currentPage: 1,
-        perPage: 2,
-        lastPage: 1,
-        total: 1,
-      },
-    });
+      });
 
-    sut = new TowersCollectionPresenter({
-      items: [props],
-      currentPage: '1' as any,
-      perPage: '2' as any,
-      lastPage: '1' as any,
-      total: '1' as any,
-    });
-    output = instanceToPlain(sut);
-    expect(output).toStrictEqual({
-      data: [
-        {
-          id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
-          code: 1,
-          tower: '0/2',
-          type: 'AT',
-          coordinates: { latitude: '', longitude: '' },
-          distance: 200,
-          height: 30,
-          weight: 1000,
-          type_of_foundation_A: 'T',
-          type_of_foundation_B: 'T',
-          type_of_foundation_C: 'T',
-          type_of_foundation_D: 'T',
-          type_of_foundation_MC: 'T',
-          embargo: 'RELEASE',
-          createdAt: createdAt.toISOString(),
+      sut = new TowersCollectionPresenter({
+        items: [props],
+        currentPage: '1' as any,
+        perPage: '2' as any,
+        lastPage: '1' as any,
+        total: '1' as any,
+      });
+      output = instanceToPlain(sut);
+      expect(output).toStrictEqual({
+        data: [
+          {
+            id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
+            code: 1,
+            tower: '0/2',
+            type: 'AT',
+            coordinates: { latitude: '', longitude: '' },
+            distance: 200,
+            height: 30,
+            weight: 1000,
+            foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+            embargo: 'RELEASE',
+            createdAt: createdAt.toISOString(),
+          },
+        ],
+        meta: {
+          currentPage: 1,
+          perPage: 2,
+          lastPage: 1,
+          total: 1,
         },
-      ],
-      meta: {
-        currentPage: 1,
-        perPage: 2,
-        lastPage: 1,
-        total: 1,
-      },
+      });
     });
   });
 });

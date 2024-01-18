@@ -35,6 +35,9 @@ export class TowerPrismaRepository implements TowerRepository.Repository {
           },
         },
       }),
+      include: {
+        foundations: true,
+      },
       orderBy: {
         [orderByField]: orderByDir,
       },
@@ -54,8 +57,30 @@ export class TowerPrismaRepository implements TowerRepository.Repository {
   }
 
   async insert(entity: TowerEntity): Promise<void> {
+    const { foundations, ...others } = entity.toJSON();
+
+    const foundationsData = await Promise.all(
+      foundations.map(foundationId => {
+        return this.prismaService.foundation.findUnique({
+          where: {
+            id: foundationId,
+          },
+        });
+      }),
+    );
+
+    const towerInput = {
+      ...others,
+      foundations: {
+        connect: foundationsData.map(foundation => ({ id: foundation.id })),
+      },
+    };
+
     await this.prismaService.tower.create({
-      data: entity.toJSON(),
+      data: towerInput,
+      include: {
+        foundations: true,
+      },
     });
   }
 
@@ -64,16 +89,39 @@ export class TowerPrismaRepository implements TowerRepository.Repository {
   }
 
   async findAll(): Promise<TowerEntity[]> {
-    const models = await this.prismaService.tower.findMany();
+    const models = await this.prismaService.tower.findMany({
+      include: {
+        foundations: true,
+      },
+    });
     return models.map(model => {
       return TowerModelMapper.toEntity(model);
     });
   }
 
   async update(entity: TowerEntity): Promise<void> {
-    await this._get(entity._id);
+    const res = await this._get(entity._id);
+    const { foundations, ...others } = entity.toJSON();
+
+    const foundationsData = await Promise.all(
+      foundations.map(foundationId => {
+        return this.prismaService.foundation.findUnique({
+          where: {
+            id: foundationId,
+          },
+        });
+      }),
+    );
+
+    const towerInput = {
+      ...others,
+      foundations: {
+        connect: foundationsData.map(foundation => ({ id: foundation.id })),
+      },
+    };
+
     await this.prismaService.tower.update({
-      data: entity.toJSON(),
+      data: towerInput,
       where: {
         id: entity._id,
       },
@@ -93,6 +141,9 @@ export class TowerPrismaRepository implements TowerRepository.Repository {
     try {
       const tower = await this.prismaService.tower.findUnique({
         where: { id },
+        include: {
+          foundations: true,
+        },
       });
       return TowerModelMapper.toEntity(tower);
     } catch (error) {

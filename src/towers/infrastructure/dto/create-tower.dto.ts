@@ -2,6 +2,7 @@ import { CreateTowerUseCase } from '@/towers/application/usecases/create-tower.u
 import { CoordinateProps } from '@/towers/domain/entities/coordinates-vo';
 import { Embargo } from '@/towers/domain/entities/towers.entity';
 import {
+  IsArray,
   IsNotEmpty,
   IsNumber,
   IsObject,
@@ -38,25 +39,9 @@ export class CreateTowerDto implements CreateTowerUseCase.Input {
   @IsOptional()
   weight?: number;
 
-  @IsString()
+  @IsArray()
   @IsOptional()
-  type_of_foundation_A?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_B?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_C?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_D?: string;
-
-  @IsString()
-  @IsOptional()
-  type_of_foundation_MC?: string;
+  foundations?: string[];
 
   @IsString()
   @IsOptional()

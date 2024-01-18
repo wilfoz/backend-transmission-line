@@ -42,13 +42,9 @@ describe('UpdateTowerUseCase Unit Tests', () => {
       coordinates: { latitude: '0000', longitude: '00000' },
       height: items[0].height,
       weight: items[0].weight,
-      type_of_foundation_A: items[0].type_of_foundation_A,
-      type_of_foundation_B: items[0].type_of_foundation_B,
-      type_of_foundation_C: items[0].type_of_foundation_C,
-      type_of_foundation_D: items[0].type_of_foundation_D,
-      type_of_foundation_MC: items[0].type_of_foundation_MC,
-      embargo: items[0].embargo,
+      foundations: items[0].foundations,
       createdAt: items[0].createdAt,
+      embargo: items[0].embargo,
     });
   });
 });

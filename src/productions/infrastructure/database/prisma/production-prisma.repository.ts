@@ -42,6 +42,7 @@ export class ProductionPrismaRepository
       include: {
         teams: true,
         towers: true,
+        task: true,
       },
       orderBy: {
         [orderByField]: orderByDir,
@@ -270,6 +271,7 @@ export class ProductionPrismaRepository
         include: {
           teams: true,
           towers: true,
+          task: true,
         },
       });
       return ProductionModelMapper.toEntity(production);

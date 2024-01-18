@@ -219,13 +219,13 @@ content-type: application/json
   "comments": "comentarios...",
   "teams": [],
   "towers": [],
-  "taskId": "936a2ddb-e253-43fb-9b0d-57f60f85fa9a"
+  "taskId": "7718d2e5-c0e0-449d-b888-07ac34d873dc"
 }
 
 ### GET
-GET http://localhost:3000/team/{{uuid_team}}
+GET http://localhost:3000/production/{{uuid_team}}
 Content-Type: application/json
 
 ### SEARCH
-GET http://localhost:3000/team?page=1&perPage=5
+GET http://localhost:3000/production?page=1&perPage=5
 Content-Type: application/json

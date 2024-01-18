@@ -21,24 +21,36 @@ model User {
 }
 
 model Tower {
-  id                    String       @id @db.Uuid
-  code                  Int          @db.Integer
-  tower                 String       @db.VarChar(20)
-  type                  String       @db.VarChar(20)
-  coordinates           Json         @db.Json
-  distance              Float?       @db.DoublePrecision
-  height                Float?       @db.DoublePrecision
-  weight                Float?       @db.DoublePrecision
-  type_of_foundation_A  String?      @db.VarChar(20)
-  type_of_foundation_B  String?      @db.VarChar(20)
-  type_of_foundation_C  String?      @db.VarChar(20)
-  type_of_foundation_D  String?      @db.VarChar(20)
-  type_of_foundation_MC String?      @db.VarChar(20)
-  embargo               String?      @db.VarChar(20)
-  createdAt             DateTime     @default(now())
-  Production            Production[]
+  id          String       @id @db.Uuid
+  code        Int          @db.Integer
+  tower       String       @db.VarChar(20)
+  type        String       @db.VarChar(20)
+  coordinates Json         @db.Json
+  distance    Float?       @db.DoublePrecision
+  height      Float?       @db.DoublePrecision
+  weight      Float?       @db.DoublePrecision
+  embargo     String?      @db.VarChar(20)
+  createdAt   DateTime     @default(now())
+  foundations Foundation[]
+  productions Production[]
 
   @@map("towers")
+}
+
+model Foundation {
+  id                String     @id @db.Uuid
+  project           String     @db.VarChar(255)
+  revision          String     @db.VarChar(10)
+  description       String     @db.VarChar(255)
+  aplication        TOWER_TYPE
+  excavation_volume Float?     @db.DoublePrecision
+  concrete_volume   Float?     @db.DoublePrecision
+  backfill_volume   Float?     @db.DoublePrecision
+  steel_volume      Float?     @db.DoublePrecision
+
+  towers Tower[]
+
+  @@map("foundations")
 }
 
 model Task {
@@ -135,4 +147,9 @@ enum STATUS_EMPLOYEE {
 enum LEADERS {
   YES
   NO
+}
+
+enum TOWER_TYPE {
+  EST
+  AUT
 }

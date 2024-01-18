@@ -14,12 +14,8 @@ export class TowerPresenter {
   distance: number | null;
   height: number | null;
   weight: number | null;
-  type_of_foundation_A: string | null;
-  type_of_foundation_B: string | null;
-  type_of_foundation_C: string | null;
-  type_of_foundation_D: string | null;
-  type_of_foundation_MC: string | null;
   embargo: Embargo | null;
+  foundations: string[];
 
   @Transform(({ value }: { value: Date }) => value.toISOString())
   createdAt: Date;
@@ -33,11 +29,7 @@ export class TowerPresenter {
     this.distance = output.distance;
     this.height = output.height;
     this.weight = output.weight;
-    this.type_of_foundation_A = output.type_of_foundation_A;
-    this.type_of_foundation_B = output.type_of_foundation_B;
-    this.type_of_foundation_C = output.type_of_foundation_C;
-    this.type_of_foundation_D = output.type_of_foundation_D;
-    this.type_of_foundation_MC = output.type_of_foundation_MC;
+    this.foundations = output.foundations;
     this.embargo = output.embargo;
     this.createdAt = output.createdAt;
   }

@@ -1,6 +1,6 @@
 import { ValidationError } from '@/shared/domain/errors/validation-error';
 import { setupPrismaTests } from '@/shared/infrastructure/database/prisma/testing/setup-prisma-tests';
-import { PrismaClient, Production, Team, Tower } from '@prisma/client';
+import { PrismaClient, Production, Task, Team, Tower } from '@prisma/client';
 import { ProductionEntity } from '../../../../../domain/entities/production.entity';
 import { productionDataBuilder } from '../../../../../domain/helpers/production-data-builder';
 import { ProductionModelMapper } from '../production-model.mapper';
@@ -48,6 +48,7 @@ describe('ProductionModelMapper Integration tests', () => {
       {
         teams: Team[];
         towers: Tower[];
+        task: Task;
       } & Production
     > = Object.assign(props, { status: null });
     expect(() => ProductionModelMapper.toEntity(model)).toThrowError(
@@ -56,11 +57,11 @@ describe('ProductionModelMapper Integration tests', () => {
   });
 
   it('should convert a production model to a production entity', async () => {
-    const taskId = task.id;
     const model: Required<
       {
         teams: Team[];
         towers: Tower[];
+        task: Task;
       } & Production
     > = await prismaService.production.create({
       data: {
@@ -69,12 +70,13 @@ describe('ProductionModelMapper Integration tests', () => {
         comments: props.comments,
         startTime: props.startTime,
         finalTime: props.finalTime,
-        taskId,
+        taskId: task.id,
         createdAt: props.createdAt,
       },
       include: {
         teams: true,
         towers: true,
+        task: true,
       },
     });
 
