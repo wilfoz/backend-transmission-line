@@ -1,21 +1,21 @@
 ### Variables
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIwYWFkZjY5LTExYjctNDVlZS1hMDJjLWU5ZDIxMTgwNzhjOSIsImlhdCI6MTcwMjE0ODg2OCwiZXhwIjoxNzAyMjM1MjY4fQ.2JfJvIcTaXcSWNVlXdtfV6nof7vf3G2HqVLNl0wbk9c
-@uuid=34d1a403-051d-4078-a92f-7e0c37cde6cc
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU3MWM0MzQ4LWVmNTQtNGE5Ny05M2I1LTdjZWU5Yzc1OGM5NiIsImlhdCI6MTcwNTY2ODU0NCwiZXhwIjoxNzA1NzU0OTQ0fQ.mX5j5AXvkWZNAM5XRAv0lqNcWrdw5JW6qnY1PXTxzmE
+@uuid_tower=62924e14-c25b-4339-acfe-5f0b53d9359a
 @uuid_task=2aff0e3c-37ec-43f0-8dbe-7b2f8c7c0054
-@uuid_employee=1704a043-3773-4332-b8b5-0c389733e908
+@uuid_employee=c9a952cc-5d5a-4940-b56c-8c3d8a997622
 @uuid_team=cfeb434d-9ede-4f9b-91d1-f7bed149e800
-
-
-
+@uuid_foundation=e91955be-681f-4bda-9a7c-467ab9f61924
 ### USERS
-### GET
-GET http://localhost:3000/users
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-### SEARCH
-GET http://localhost:3000/users?page=1&perPage=5
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
+
+### CREATE
+POST http://localhost:3000/users
+content-type: application/json
+
+{
+    "name": "admin",
+    "email": "admin@d.com",
+    "password": "12345"
+}
 
 ### LOGIN
 POST  http://localhost:3000/users/login
@@ -25,15 +25,53 @@ content-type: application/json
     "email": "admin@d.com",
     "password": "12345"
 }
-### CREATE
 
-POST http://localhost:3000/users
+### GET
+GET http://localhost:3000/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### SEARCH
+GET http://localhost:3000/users?page=1&perPage=5
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### FOUNDATIONS
+
+### CREATE
+POST http://localhost:3000/foundation
 content-type: application/json
 
 {
-    "name": "admin",
-    "email": "admin@d.com",
-    "password": "12345"
+  "project": "AT-FUN-MCA-0001",
+  "revision": "0A",
+  "description": "AT-TCB-AFL-0.5",
+  "excavation_volume": 20,
+  "concrete_volume": 15,
+  "backfill_volume": 18,
+  "steel_volume": 1000
+}
+
+### GET
+GET http://localhost:3000/foundation/{{uuid_foundation}}
+Content-Type: application/json
+
+### SEARCH
+GET http://localhost:3000/foundation?page=1&perPage=5
+Content-Type: application/json
+
+### UPDATE
+PUT http://localhost:3000/foundation/{{uuid_foundation}}
+content-type: application/json
+
+{
+   "project": "AT-FUN-MCA-0002",
+  "revision": "01",
+  "description": "AT-TCB-AFL-0.8",
+  "excavation_volume": 40,
+  "concrete_volume": 20,
+  "backfill_volume": 22,
+  "steel_volume": 1020
 }
 
 ### TOWERS
@@ -50,16 +88,12 @@ content-type: application/json
   "distance": 200,
   "height": 30,
   "weight": 1000,
-  "type_of_foundation_A": "T",
-  "type_of_foundation_B": "T",
-  "type_of_foundation_C": "T",
-  "type_of_foundation_D": "T",
-  "type_of_foundation_MC": "T",
-  "embargo": "RELEASE"
+  "embargo": "RELEASE",
+  "foundations": ["e91955be-681f-4bda-9a7c-467ab9f61924"]
 }
 
 ### GET
-GET http://localhost:3000/tower/{{uuid}}
+GET http://localhost:3000/tower/{{uuid_tower}}
 Content-Type: application/json
 
 ### SEARCH
@@ -67,7 +101,7 @@ GET http://localhost:3000/tower?page=1&perPage=5
 Content-Type: application/json
 
 ### UPDATE
-PUT http://localhost:3000/tower/{{uuid}}
+PUT http://localhost:3000/tower/{{uuid_tower}}
 content-type: application/json
 
 {
@@ -187,18 +221,18 @@ content-type: application/json
 }
 
 ### ADD EMPLOYEE
-PUT http://localhost:3000/team/add-employee/1704a043-3773-4332-b8b5-0c389733e908
+PUT http://localhost:3000/team/add-employee/{{uuid_employee}}
 content-type: application/json
 
 {
-  "id": "cfeb434d-9ede-4f9b-91d1-f7bed149e800",
+  "id": "8015a036-0a8a-4179-b8f2-6af4d0b956a4",
   "name": "Equip-005",
   "employees": [],
   "equipments": []
 }
 
 ### REMOVE EMPLOYEE
-PUT http://localhost:3000/team/del-employee/1704a043-3773-4332-b8b5-0c389733e908
+PUT http://localhost:3000/team/del-employee/{{uuid_employee}}
 content-type: application/json
 
 {

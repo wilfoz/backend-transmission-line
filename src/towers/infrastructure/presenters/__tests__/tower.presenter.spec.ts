@@ -5,8 +5,8 @@ import { Embargo } from '@/towers/domain/entities/towers.entity';
 import { TowerOutput } from '@/towers/application/dto/tower-output';
 
 describe('TowerPresenter', () => {
-  let sut: TowerPresenter;
   const createdAt = new Date();
+  let sut: TowerPresenter;
   const props = {
     id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
     code: 1,
@@ -16,7 +16,19 @@ describe('TowerPresenter', () => {
     distance: 200,
     height: 30,
     weight: 1000,
-    foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+    foundations: [
+      {
+        id: 'fbff4845-de4a-4073-90d5-bad38822b4f9',
+        project: 'AT-FUN-MCA-0001',
+        revision: '0A',
+        description: 'AT-TCB-AFL-0.5',
+        excavation_volume: 20,
+        concrete_volume: 15,
+        backfill_volume: 18,
+        steel_volume: 1000,
+        createdAt: new Date(),
+      },
+    ],
     embargo: 'RELEASE' as Embargo,
     createdAt,
   };
@@ -52,14 +64,18 @@ describe('TowerPresenter', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+      foundations: [
+        {
+          ...props.foundations[0],
+          createdAt: props.foundations[0].createdAt.toISOString(),
+        },
+      ],
       embargo: 'RELEASE',
       createdAt: createdAt.toISOString(),
     });
   });
 
   describe('TowersCollectionPresenter', () => {
-    let sut: TowersCollectionPresenter;
     const createdAt = new Date();
     const props = {
       id: '9354d4ca-2142-4e54-adb4-53ec3c3540d4',
@@ -70,7 +86,19 @@ describe('TowerPresenter', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+      foundations: [
+        {
+          id: 'fbff4845-de4a-4073-90d5-bad38822b4f9',
+          project: 'AT-FUN-MCA-0001',
+          revision: '0A',
+          description: 'AT-TCB-AFL-0.5',
+          excavation_volume: 20,
+          concrete_volume: 15,
+          backfill_volume: 18,
+          steel_volume: 1000,
+          createdAt: new Date(),
+        },
+      ],
       embargo: 'RELEASE',
       createdAt,
     } as TowerOutput;
@@ -118,7 +146,12 @@ describe('TowerPresenter', () => {
             distance: 200,
             height: 30,
             weight: 1000,
-            foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+            foundations: [
+              {
+                ...props.foundations[0],
+                createdAt: props.foundations[0].createdAt.toISOString(),
+              },
+            ],
             embargo: 'RELEASE' as Embargo,
             createdAt: createdAt.toISOString(),
           },
@@ -150,7 +183,12 @@ describe('TowerPresenter', () => {
             distance: 200,
             height: 30,
             weight: 1000,
-            foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+            foundations: [
+              {
+                ...props.foundations[0],
+                createdAt: props.foundations[0].createdAt.toISOString(),
+              },
+            ],
             embargo: 'RELEASE',
             createdAt: createdAt.toISOString(),
           },

@@ -38,15 +38,15 @@ model Tower {
 }
 
 model Foundation {
-  id                String     @id @db.Uuid
-  project           String     @db.VarChar(255)
-  revision          String     @db.VarChar(10)
-  description       String     @db.VarChar(255)
-  aplication        TOWER_TYPE
-  excavation_volume Float?     @db.DoublePrecision
-  concrete_volume   Float?     @db.DoublePrecision
-  backfill_volume   Float?     @db.DoublePrecision
-  steel_volume      Float?     @db.DoublePrecision
+  id                String   @id @db.Uuid
+  project           String   @db.VarChar(255)
+  revision          String   @db.VarChar(10)
+  description       String   @unique
+  excavation_volume Float?   @db.DoublePrecision
+  concrete_volume   Float?   @db.DoublePrecision
+  backfill_volume   Float?   @db.DoublePrecision
+  steel_volume      Float?   @db.DoublePrecision
+  createdAt         DateTime @default(now())
 
   towers Tower[]
 
@@ -147,9 +147,4 @@ enum STATUS_EMPLOYEE {
 enum LEADERS {
   YES
   NO
-}
-
-enum TOWER_TYPE {
-  EST
-  AUT
 }

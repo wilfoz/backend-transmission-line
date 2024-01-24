@@ -26,7 +26,7 @@ describe('TowerPrismaRepository Integration tests', () => {
 
   beforeEach(async () => {
     sut = new TowerPrismaRepository(prismaService as any);
-    props = towerDataBuilder({});
+    props = towerDataBuilder({ foundations: [] });
     await prismaService.tower.deleteMany();
   });
 
@@ -56,12 +56,15 @@ describe('TowerPrismaRepository Integration tests', () => {
     expect(output.toJSON()).toStrictEqual(entity.toJSON());
   });
 
-  it('should insert a new tower', async () => {
+  it('should insert a new tower with foundations empty', async () => {
     const entity = new TowerEntity(props);
     await sut.insert(entity);
     const result = await prismaService.tower.findUnique({
       where: {
         id: entity._id,
+      },
+      include: {
+        foundations: true,
       },
     });
     expect(result).toStrictEqual({
@@ -72,6 +75,7 @@ describe('TowerPrismaRepository Integration tests', () => {
       distance: entity.toJSON().distance,
       height: entity.toJSON().height,
       weight: entity.toJSON().weight,
+      foundations: entity.toJSON().foundations,
       embargo: entity.toJSON().embargo,
       createdAt: entity.toJSON().createdAt,
       coordinates: entity.toJSON().coordinates,
@@ -131,7 +135,7 @@ describe('TowerPrismaRepository Integration tests', () => {
 
   it('should delete a tower', async () => {
     const entity = new TowerEntity(towerDataBuilder({}));
-    const tower = await prismaService.tower.create({
+    await prismaService.tower.create({
       data: {
         id: entity.toJSON().id,
         code: entity.toJSON().code,
@@ -172,7 +176,7 @@ describe('TowerPrismaRepository Integration tests', () => {
     //   arrange.forEach((element, index) => {
     //     entities.push(
     //       new TowerEntity({
-    //         ...towerDataBuilder({ type: element }),
+    //         ...towerDataBuilder({ type: element, foundations: [] }),
     //         createdAt: new Date(createdAt.getTime() + index),
     //       }),
     //     );
@@ -200,19 +204,19 @@ describe('TowerPrismaRepository Integration tests', () => {
     //     entities[4].toJSON(),
     //   );
 
-    //   const searchOutputPage2 = await sut.search(
-    //     new TowerRepository.SearchParams({
-    //       page: 2,
-    //       perPage: 2,
-    //       sort: 'type',
-    //       sortDir: 'asc',
-    //       filter: 'TEST',
-    //     }),
-    //   );
+    // const searchOutputPage2 = await sut.search(
+    //   new TowerRepository.SearchParams({
+    //     page: 2,
+    //     perPage: 2,
+    //     sort: 'type',
+    //     sortDir: 'asc',
+    //     filter: 'TEST',
+    //   }),
+    // );
 
-    //   expect(searchOutputPage2.items[0].toJSON()).toMatchObject(
-    //     entities[2].toJSON(),
-    //   );
+    // expect(searchOutputPage2.items[0].toJSON()).toMatchObject(
+    //   entities[2].toJSON(),
+    // );
     // });
   });
 });

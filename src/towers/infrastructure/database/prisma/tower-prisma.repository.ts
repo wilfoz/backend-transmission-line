@@ -27,6 +27,9 @@ export class TowerPrismaRepository implements TowerRepository.Repository {
     });
 
     const models = await this.prismaService.tower.findMany({
+      include: {
+        foundations: true,
+      },
       ...(props.filter && {
         where: {
           type: {
@@ -35,9 +38,6 @@ export class TowerPrismaRepository implements TowerRepository.Repository {
           },
         },
       }),
-      include: {
-        foundations: true,
-      },
       orderBy: {
         [orderByField]: orderByDir,
       },

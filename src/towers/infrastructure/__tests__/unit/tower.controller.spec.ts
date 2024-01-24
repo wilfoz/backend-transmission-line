@@ -28,7 +28,19 @@ describe('TowerController Unit Tests', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+      foundations: [
+        {
+          id: 'fbff4845-de4a-4073-90d5-bad38822b4f9',
+          project: 'AT-FUN-MCA-0001',
+          revision: '0A',
+          description: 'AT-TCB-AFL-0.5',
+          excavation_volume: 20,
+          concrete_volume: 15,
+          backfill_volume: 18,
+          steel_volume: 1000,
+          createdAt: new Date(),
+        },
+      ],
       embargo: 'RELEASE',
       createdAt: new Date(),
     };
@@ -52,7 +64,7 @@ describe('TowerController Unit Tests', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+      foundations: ['fbff4845-de4a-4073-90d5-bad38822b4f9'],
       embargo: 'RELEASE',
     };
     const presenter = await sut.create(input);
@@ -75,7 +87,7 @@ describe('TowerController Unit Tests', () => {
       distance: 200,
       height: 30,
       weight: 1000,
-      foundations: ['e0a651f4-4436-437d-b90f-70683f3f78fb'],
+      foundations: ['fbff4845-de4a-4073-90d5-bad38822b4f9'],
       embargo: 'RELEASE',
     };
     const presenter = await sut.update(id, input);

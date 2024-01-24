@@ -2,14 +2,22 @@ import { TowerInMemoryRepository } from '@/towers/infrastructure/database/in-mem
 import { CreateTowerUseCase } from '../../create-tower.usecase';
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
 import { TowerEntity } from '@/towers/domain/entities/towers.entity';
+import { FoundationInMemoryRepository } from '../../../../../foundations/infrastructure/database/in-memory/foundation-in-memory.repository';
+import { FoundationEntity } from '../../../../../foundations/domain/entities/foundation.entity';
+import { foundationDataBuilder } from '../../../../../foundations/domain/helpers/foundation-data-builder';
 
 describe('CreateTowerUseCase Unit Tests', () => {
   let sut: CreateTowerUseCase.UseCase;
-  let repository: TowerInMemoryRepository;
+  let tower_repository: TowerInMemoryRepository;
+  let foundation_repository: FoundationInMemoryRepository;
 
   beforeEach(() => {
-    repository = new TowerInMemoryRepository();
-    sut = new CreateTowerUseCase.UseCase(repository);
+    tower_repository = new TowerInMemoryRepository();
+    foundation_repository = new FoundationInMemoryRepository();
+    sut = new CreateTowerUseCase.UseCase(
+      tower_repository,
+      foundation_repository,
+    );
     jest.restoreAllMocks();
   });
   describe('handleError method', () => {
@@ -27,7 +35,7 @@ describe('CreateTowerUseCase Unit Tests', () => {
   describe('execute method', () => {
     it('should throw an generic error', async () => {
       const expectedError = new Error('generic error');
-      jest.spyOn(repository, 'insert').mockRejectedValue(expectedError);
+      jest.spyOn(tower_repository, 'insert').mockRejectedValue(expectedError);
       const spyHandleError = jest.spyOn(sut, 'handleError' as any);
 
       await expect(
@@ -71,7 +79,10 @@ describe('CreateTowerUseCase Unit Tests', () => {
     });
 
     it('should create a tower', async () => {
-      const spyInsert = jest.spyOn(repository, 'insert');
+      const spyInsert = jest.spyOn(tower_repository, 'insert');
+      const foundation = new FoundationEntity(foundationDataBuilder({}));
+      await foundation_repository.insert(foundation);
+
       const output = await sut.execute({
         code: 1,
         tower: '1/1',
@@ -80,12 +91,12 @@ describe('CreateTowerUseCase Unit Tests', () => {
         distance: 10,
         height: 12,
         weight: 20,
-        foundations: ['8e22b443-eb39-4368-af81-36b217591435'],
+        foundations: [foundation.id],
         embargo: 'RELEASE',
       });
       expect(spyInsert).toHaveBeenCalledTimes(1);
       expect(output).toStrictEqual({
-        id: repository.items[0].id,
+        id: tower_repository.items[0].id,
         code: 1,
         tower: '1/1',
         type: 'AT',
@@ -93,9 +104,21 @@ describe('CreateTowerUseCase Unit Tests', () => {
         distance: 10,
         height: 12,
         weight: 20,
-        foundations: ['8e22b443-eb39-4368-af81-36b217591435'],
+        foundations: [
+          {
+            id: foundation.id,
+            project: foundation.project,
+            revision: foundation.revision,
+            description: foundation.description,
+            excavation_volume: foundation.excavation_volume,
+            concrete_volume: foundation.concrete_volume,
+            backfill_volume: foundation.backfill_volume,
+            steel_volume: foundation.steel_volume,
+            createdAt: foundation.createdAt,
+          },
+        ],
         embargo: 'RELEASE',
-        createdAt: repository.items[0].createdAt,
+        createdAt: tower_repository.items[0].createdAt,
       });
     });
   });

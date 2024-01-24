@@ -7,6 +7,7 @@ import { TowerEntity, Embargo } from '@/towers/domain/entities/towers.entity';
 import { TowerOutput, TowerOutputMapper } from '../dto/tower-output';
 import { TowerRepository } from '@/towers/domain/repositories/tower.repository';
 import { EntityValidationError } from '@/shared/domain/errors/validation-error';
+import { FoundationRepository } from '../../../foundations/domain/repositories/foundation.repository';
 
 export namespace CreateTowerUseCase {
   export type Input = {
@@ -24,7 +25,10 @@ export namespace CreateTowerUseCase {
   export type Output = TowerOutput;
 
   export class UseCase implements DefaultUseCase<Input, Output> {
-    constructor(private repository: TowerRepository.Repository) { }
+    constructor(
+      private repository: TowerRepository.Repository,
+      private foundationRepo: FoundationRepository.Repository,
+    ) { }
 
     async execute(input: Input): Promise<Output> {
       const coordinates = CoordinatesVO.create(input.coordinates);
@@ -34,7 +38,12 @@ export namespace CreateTowerUseCase {
           coordinates,
         });
         await this.repository.insert(entity);
-        return TowerOutputMapper.toOutput(entity);
+
+        const foundations = await Promise.all(
+          input.foundations.map(id => this.foundationRepo.findById(id)),
+        );
+
+        return TowerOutputMapper.toOutput(entity, foundations);
       } catch (e) {
         this.handleError(e);
       }
